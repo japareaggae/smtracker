@@ -5,6 +5,20 @@ import xml.etree.ElementTree as etree
 
 DIFFICULTIES = ["Beginner", "Easy", "Medium", "Hard", "Challenge"]
 
+def highscore_stat(step, stat):
+    """Receives a <Steps> ElementTree, and returns the specified stat from it's first HighScore.
+
+    Keyword arguments:
+    step -- the <Steps> ElementTree to search
+    stat -- the desired stat from the first <HighScore> on <Steps>
+
+    Returns: string
+
+    Raises:
+    AttributeError -- if a song has no <HighScore> (raised from ElementTree)
+    """
+    return step.find("HighScoreList").find("HighScore").find(stat).text
+
 # Sets the default location for statsxml.
 # TODO: Try to read the MachineProfile if there's no LocalProfile
 # TODO: See if this works properly on both Cygwin and cmd.exe
@@ -43,10 +57,9 @@ for Song in Stats.find("SongScores"):
         # IndexError is raised after we reach the final <Step> on the song using step_counter
         try:
             if Song[step_counter].attrib['Difficulty'] == diff:
-                # AutoPlayed songs don't get scores and raise AttributeErrors when fetching <HighScore>
                 try:
-                    grade   = Song[step_counter].find("HighScoreList").find("HighScore").find("Grade").text
-                    percent = float(Song[step_counter].find("HighScoreList").find("HighScore").find("PercentDP").text) * 100
+                    grade   = highscore_stat(Song[step_counter], "Grade")
+                    percent = float(highscore_stat(Song[step_counter], "PercentDP")) * 100
                     print("+++ {}: {} ({:.2f})".format(diff,grade,percent))
                 except AttributeError:
                     print("--- " + diff)
