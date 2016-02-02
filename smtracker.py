@@ -1,20 +1,26 @@
 #!/usr/bin/env python3
+import os
 import xml.etree.ElementTree as etree
-
-# TODO:
-# * Implement argparse
-# * Implement outputs (HTML? PyQt?)
 
 DIFFICULTIES = ["Beginner", "Easy", "Medium", "Hard", "Challenge"]
 DEBUG = False
 
+# TODO: Implement argparse to read a specific Stats.xml file
+# TODO: Try to read the MachineProfile if there's no LocalProfile
+# TODO: See if this works properly on both Cygwin and cmd.exe
+if os.name == 'posix':
+    statsxml = os.environ['HOME'] + "/.stepmania-5.0/Save/LocalProfiles/00000000/Stats.xml"
+elif os.name == 'nt':
+    statsxml = os.environ['APPDATA'] + "/StepMania 5/Save/LocalProfiles/00000000/Stats.xml"
+
+if DEBUG:
+    print("DEBUG: Stats.xml file is " + statsxml)
+
 try:
-    tree = etree.parse('Stats.xml')
+    tree = etree.parse(statsxml)
     Stats = tree.getroot()
-    if DEBUG:
-        print("DEBUG: Found Stats.xml")
 except FileNotFoundError:
-    print("No Stats.xml found")
+    print("ERROR: No Stats.xml found")
     exit(1)
 
 DisplayName    = Stats.find("GeneralData").find("DisplayName").text
@@ -46,3 +52,4 @@ for Song in Stats.find("SongScores"):
         except IndexError:
             print("--- " + diff)
 
+# TODO: Implement outputs (HTML? PyQt?)
