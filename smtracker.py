@@ -41,9 +41,9 @@ for Song in Stats.find("SongScores"):
             if Song[step_counter].attrib['Difficulty'] == diff:
                 # AutoPlayed songs don't get scores and raise AttributeErrors when fetching <HighScore>
                 try:
-                    print("+++ " + diff + ": " + \
-                            Song[step_counter].find("HighScoreList").find("HighScore").find("Grade").text + \
-                            " (" + Song[step_counter].find("HighScoreList").find("HighScore").find("PercentDP").text + ")")
+                    grade   = Song[step_counter].find("HighScoreList").find("HighScore").find("Grade").text
+                    percent = float(Song[step_counter].find("HighScoreList").find("HighScore").find("PercentDP").text) * 100
+                    print("+++ {}: {} ({:.2f})".format(diff,grade,percent))
                 except AttributeError:
                     print("--- " + diff)
                 step_counter = step_counter + 1
