@@ -7,7 +7,11 @@ def report(stats_xml, difficulties):
     Stats = tree.getroot()
     DisplayName    = Stats.find("GeneralData").find("DisplayName").text
     LastPlayedDate = Stats.find("GeneralData").find("LastPlayedDate").text
-    print("Profile name is " + DisplayName)
+    try:
+        print("Profile name is " + DisplayName)
+    except TypeError:
+        print("Profile name is unknown")
+
     print("Last played date was " + LastPlayedDate)
 
     for Song in Stats.find("SongScores"):
