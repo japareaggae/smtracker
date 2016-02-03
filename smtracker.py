@@ -5,14 +5,30 @@ import os
 import output_plain
 
 DIFFICULTIES = ["Beginner", "Easy", "Medium", "Hard", "Challenge"]
+LP_LOCATION = "/Save/LocalProfiles/00000000/Stats.xml"
+MP_LOCATION = "/Save/MachineProfile/Stats.xml"
 
 # Sets the default location for statsxml.
-# TODO: Try to read the MachineProfile if there's no LocalProfile
 # TODO: See if this works properly on both Cygwin and cmd.exe
 if os.name == 'posix':
-    def_statsxml = os.environ['HOME'] + "/.stepmania-5.0/Save/LocalProfiles/00000000/Stats.xml"
+    LINUX_LOCALPROFILE = os.environ['HOME'] + "/.stepmania-5.0" + LP_LOCATION
+    LINUX_MACHINEPROFILE = os.environ['HOME'] + "/.stepmania-5.0" + MP_LOCATION
+    if os.path.isfile(LINUX_LOCALPROFILE):
+        def_statsxml = LINUX_LOCALPROFILE
+    elif os.path.isfile(LINUX_MACHINEPROFILE):
+        def_statsxml = LINUX_MACHINEPROFILE
+    else:
+        def_statsxml = None
+
 elif os.name == 'nt':
-    def_statsxml = os.environ['APPDATA'] + "/StepMania 5/Save/LocalProfiles/00000000/Stats.xml"
+    NT_LOCALPROFILE = os.environ['APPDATA'] + "/StepMania 5" + LP_LOCATION
+    NT_MACHINEPROFILE = os.environ['APPDATA'] + "/StepMania 5" + MP_LOCATION
+    if os.path.isfile(LINUX_LOCALPROFILE):
+        def_statsxml = LINUX_LOCALPROFILE
+    elif os.path.isfile(LINUX_MACHINEPROFILE):
+        def_statsxml = LINUX_MACHINEPROFILE
+    else:
+        def_statsxml = None
 
 # We can ask the program to read a specific file using argparse.
 parser = argparse.ArgumentParser(description='A StepMania Score Tracker')
