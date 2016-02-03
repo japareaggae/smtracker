@@ -2,7 +2,7 @@
 import argparse
 import os
 
-import plainoutput
+import output_plain
 
 DIFFICULTIES = ["Beginner", "Easy", "Medium", "Hard", "Challenge"]
 
@@ -21,4 +21,4 @@ parser.add_argument('file', nargs='?', type=argparse.FileType('r'), default=def_
 args = parser.parse_args()
 statsxml = vars(args)['file']
 
-plainoutput.plain_text_report(statsxml, DIFFICULTIES)
+output_plain.report(statsxml, DIFFICULTIES)
