@@ -2,10 +2,11 @@ import xml.etree.ElementTree as etree
 
 import format_utils
 
+
 def report(stats_xml, difficulties):
     tree = etree.parse(stats_xml)
     Stats = tree.getroot()
-    DisplayName    = Stats.find("GeneralData").find("DisplayName").text
+    DisplayName = Stats.find("GeneralData").find("DisplayName").text
     LastPlayedDate = Stats.find("GeneralData").find("LastPlayedDate").text
     try:
         print("Profile name is " + DisplayName)
@@ -22,13 +23,14 @@ def report(stats_xml, difficulties):
 
         step_counter = 0
         for diff in difficulties:
-            # IndexError is raised after we reach the final <Step> on the song using step_counter
+            # IndexError is raised after we reach the final <Step> on the song
+            # using step_counter
             try:
                 if Song[step_counter].attrib['Difficulty'] == diff:
                     try:
-                        grade   = format_utils.tier_to_grade_sm5(format_utils.highscore_stat(Song[step_counter], "Grade"))
+                        grade = format_utils.tier_to_grade_sm5(format_utils.highscore_stat(Song[step_counter], "Grade"))
                         percent = float(format_utils.highscore_stat(Song[step_counter], "PercentDP")) * 100
-                        print("+++ {}: {} ({:.2f})".format(diff,grade,percent))
+                        print("+++ {}: {} ({:.2f})".format(diff, grade, percent))
                     except AttributeError:
                         print("--- " + diff)
                     step_counter = step_counter + 1
