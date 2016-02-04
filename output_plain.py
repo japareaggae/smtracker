@@ -30,7 +30,7 @@ def report(stats_xml, difficulties):
                     try:
                         grade = format_utils.tier_to_grade_sm5(format_utils.highscore_stat(Song[step_counter], "Grade"))
                         percent = float(format_utils.highscore_stat(Song[step_counter], "PercentDP")) * 100
-                        print("+++ {}: {} ({:.2f})".format(diff, grade, percent))
+                        print('+++ {:10}: {:3} ({:.2f})'.format(diff, grade, percent))
                     except AttributeError:
                         print("--- " + diff)
                     step_counter = step_counter + 1
