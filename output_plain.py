@@ -3,7 +3,7 @@ import xml.etree.ElementTree as etree
 import format_utils
 
 
-def report(stats_xml, difficulties):
+def report(stats_xml, mode, difficulties):
     tree = etree.parse(stats_xml)
     Stats = tree.getroot()
     DisplayName = Stats.find("GeneralData").find("DisplayName").text
@@ -26,7 +26,7 @@ def report(stats_xml, difficulties):
             # IndexError is raised after we reach the final <Step> on the song
             # using step_counter
             try:
-                if Song[step_counter].attrib['Difficulty'] == diff:
+                if Song[step_counter].attrib['Difficulty'] == diff and Song[step_counter].attrib['StepsType'] == mode:
                     try:
                         grade = format_utils.tier_to_grade_sm5(format_utils.highscore_stat(Song[step_counter], "Grade"))
                         percent = float(format_utils.highscore_stat(Song[step_counter], "PercentDP")) * 100
