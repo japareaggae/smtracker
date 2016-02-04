@@ -4,7 +4,11 @@
 
 
 def highscore_stat(step, stat):
-    """Returns a stat from the first HighScore of a Stats ElementTree.
+    """Returns a stat from the first HighScore of a Steps ElementTree.
+
+    Arguments:
+    step -- the Steps ElementTree to search
+    stat -- the stat to return (e.g.: Name, Grade, Modifiers...)
 
     Will raise an AttributeError if a song has no <HighScore>.
     """
@@ -12,7 +16,11 @@ def highscore_stat(step, stat):
 
 
 def highscore_timings(step):
-    """Receives a <Steps> ElementTree and returns a list with all timings."""
+    """Returns a list with the timings of the first HighScore of a Steps ElementTree.
+
+    Arguments:
+    step -- the Steps ElementTree to search
+    """
     notes = step.find("HighScoreList").find("HighScore").find("TapNoteScores")
     timings = [int(notes.find("Miss").text),
                int(notes.find("W5").text),
@@ -26,5 +34,3 @@ def highscore_timings(step):
 # It would work better for users who switch themes frequently.
 # In case we do, here's an explanation of how StepMania calculates its grades:
 # https://zenius-i-vanisher.com/v5.2/viewthread.php?threadid=6582#p349466
-
-
