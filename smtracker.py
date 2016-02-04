@@ -2,7 +2,7 @@
 import argparse
 import os
 
-import output_plain
+import output.plain
 
 DIFFICULTIES = ["Beginner", "Easy", "Medium", "Hard", "Challenge"]
 LP_LOCATION = "/Save/LocalProfiles/00000000/Stats.xml"
@@ -40,4 +40,4 @@ args = parser.parse_args()
 statsxml = vars(args)['file']
 gamemode = vars(args)['mode']
 
-output_plain.report(statsxml, gamemode, DIFFICULTIES)
+output.plain.report(statsxml, gamemode, DIFFICULTIES)
