@@ -35,8 +35,8 @@ parser.add_argument('file', nargs='?', type=argparse.FileType('r'),
                     default=def_statsxml, help="the Stats.xml file to read "
                     "(will read first available StepMania profile if not "
                     "specified)")
-parser.add_argument('-m', nargs='?', default='dance-single',
-                    const='dance-single', metavar="mode", dest="mode",
+parser.add_argument('-m', dest='mode', nargs='?', default='dance-single',
+                    const='dance-single',
                     help="the game mode to print scores from (defaults to "
                     "'dance-single')")
 args = parser.parse_args()
