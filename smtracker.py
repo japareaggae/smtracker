@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import argparse
 import os
+import sys
 
 import output.plain
 
@@ -9,8 +10,7 @@ LP_LOCATION = "/Save/LocalProfiles/00000000/Stats.xml"
 MP_LOCATION = "/Save/MachineProfile/Stats.xml"
 
 # Sets the default location for statsxml.
-# TODO: See if this works properly on both Cygwin and cmd.exe
-if os.name == 'posix':
+if sys.platform.startswith('linux'):
     LINUX_LOCALPROFILE = os.environ['HOME'] + "/.stepmania-5.0" + LP_LOCATION
     LINUX_MACHINEPROFILE = os.environ['HOME'] + "/.stepmania-5.0" + MP_LOCATION
     if os.path.isfile(LINUX_LOCALPROFILE):
@@ -19,14 +19,13 @@ if os.name == 'posix':
         def_statsxml = LINUX_MACHINEPROFILE
     else:
         def_statsxml = None
-
-elif os.name == 'nt':
+elif sys.platform.startswith('win32') or sys.platform.startswith('cygwin'):
     NT_LOCALPROFILE = os.environ['APPDATA'] + "/StepMania 5" + LP_LOCATION
     NT_MACHINEPROFILE = os.environ['APPDATA'] + "/StepMania 5" + MP_LOCATION
-    if os.path.isfile(LINUX_LOCALPROFILE):
-        def_statsxml = LINUX_LOCALPROFILE
-    elif os.path.isfile(LINUX_MACHINEPROFILE):
-        def_statsxml = LINUX_MACHINEPROFILE
+    if os.path.isfile(NT_LOCALPROFILE):
+        def_statsxml = NT_LOCALPROFILE
+    elif os.path.isfile(NT_MACHINEPROFILE):
+        def_statsxml = NT_MACHINEPROFILE
     else:
         def_statsxml = None
 
