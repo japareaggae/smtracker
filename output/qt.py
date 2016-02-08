@@ -76,13 +76,13 @@ class Viewer(QMainWindow):
             # Get group and title
             location = song.attrib['Dir'].split('/')
 
-            # Group
+            # Create group cell
             group = QTableWidgetItem(location[1])
             table.setItem(current_row, current_column, group)
             self.lock_cell(group)
             current_column = current_column + 1
 
-            # Title
+            # Create title cell
             title = QTableWidgetItem(location[2])
             table.setItem(current_row, current_column, title)
             self.lock_cell(title)
