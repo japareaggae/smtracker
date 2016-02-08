@@ -17,23 +17,29 @@
 
 import sys
 
-from PyQt5.QtWidgets import (QMainWindow, QComboBox, QTableWidget, QHBoxLayout,
-        QVBoxLayout, QApplication, QWidget, QLabel, QTableWidgetItem)
+from PyQt5.QtWidgets import (QMainWindow, QWidget, QLabel, QComboBox,
+                             QTableWidget, QTableWidgetItem, QHBoxLayout,
+                             QVBoxLayout, QApplication)
 from PyQt5.QtCore import Qt
 import xml.etree.ElementTree as etree
 
 import utils.format
 import utils.parse
 
+
 class Viewer(QMainWindow):
 
     def __init__(self, stats, mode, difficulties):
+        """Initializes basic information about the Viewer class."""
         super().__init__()
+
+        # Define our XML tree
         tree = etree.parse(stats)
         self.stats = tree.getroot()
+
+        # Get basic information from the stats
         self.ismachine = self.stats.find("GeneralData").find("IsMachine").text
         self.lastplayed = self.stats.find("GeneralData").find("LastPlayedDate").text
-
         if self.ismachine == "1":
             self.displayname = "(machine profile)"
         else:
@@ -42,13 +48,16 @@ class Viewer(QMainWindow):
         # Define initial gamemode on combobox
         self.mode = mode
 
+        # Define the difficulties
         self.difficulties = difficulties
         self.initUI()
 
     def lock_cell(self, cell):
+        """Disables editing a QTableWidgetItem."""
         cell.setFlags(Qt.ItemIsSelectable and Qt.ItemIsEnabled)
 
     def initUI(self):
+        """Initializes the user interface."""
         MODES = ("dance-single", "dance-double", "pump-single", "pump-double")
         HEADER = ("Group", "Title", "Beginner", "Easy", "Medium", "Hard",
                   "Challenge")
@@ -59,14 +68,11 @@ class Viewer(QMainWindow):
         combobox.setCurrentText(self.mode)
         combolabel = QLabel("Game mode:")
 
-        # Table item prototype
-        protocell = QTableWidgetItem()
-        protocell.setFlags(Qt.ItemIsSelectable and Qt.ItemIsEnabled)
-
-        # Our table
+        # Create our table
         table = QTableWidget()
         table.setColumnCount(7)
-        # Sets the header
+
+        # Sets the header cells
         for head in HEADER:
             where = HEADER.index(head)
             headeritem = QTableWidgetItem()
@@ -106,8 +112,8 @@ class Viewer(QMainWindow):
                             # Get the timings for our song
                             timings = utils.parse.highscore_timings(song[step_counter])
 
-                            # Certainly there's a better way to do this, but
-                            # I couldn't find any
+                            # TODO: Figure out if there's a cleaner way of
+                            # doing this
                             tooltip = """Marvelous: {}
 Perfect: {}
 Great: {}
@@ -156,8 +162,8 @@ Miss: {}""".format(timings[5], timings[4], timings[3], timings[2], timings[1],
         self.setGeometry(48, 48, 1200, 700)
         self.show()
 
+
 def run(stats, mode, difficulties):
     app = QApplication(sys.argv)
     view = Viewer(stats, mode, difficulties)
     sys.exit(app.exec_())
-
