@@ -136,6 +136,8 @@ Miss: {}""".format(timings[5], timings[4], timings[3], timings[2], timings[1],
 
         # Final table adjustments
         table.resizeColumnsToContents()
+        table.setSortingEnabled(True)
+        table.sortByColumn(0, Qt.AscendingOrder)
 
         hbox = QHBoxLayout()
         hbox.addWidget(combolabel)
