@@ -31,8 +31,13 @@ class Viewer(QMainWindow):
         super().__init__()
         tree = etree.parse(stats)
         self.stats = tree.getroot()
-        self.displayname = self.stats.find("GeneralData").find("DisplayName").text
+        self.ismachine = self.stats.find("GeneralData").find("IsMachine").text
         self.lastplayed = self.stats.find("GeneralData").find("LastPlayedDate").text
+
+        if self.ismachine == "1":
+            self.displayname = "(machine profile)"
+        else:
+            self.displayname = self.stats.find("GeneralData").find("DisplayName").text
 
         # Define initial gamemode on combobox
         self.mode = mode

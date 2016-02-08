@@ -24,8 +24,14 @@ import utils.parse
 def report(stats_xml, mode, difficulties):
     tree = etree.parse(stats_xml)
     Stats = tree.getroot()
-    DisplayName = Stats.find("GeneralData").find("DisplayName").text
+    IsMachine = Stats.find("GeneralData").find("IsMachine").text
     LastPlayedDate = Stats.find("GeneralData").find("LastPlayedDate").text
+
+    if IsMachine == "1":
+        DisplayName = "(machine profile)"
+    else:
+        DisplayName = Stats.find("GeneralData").find("DisplayName").text
+
     try:
         print("Profile name is " + DisplayName)
     except TypeError:
