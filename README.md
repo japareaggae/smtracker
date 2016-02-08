@@ -4,6 +4,11 @@ smtracker - StepMania Score Tracker
 smtracker is a simple [StepMania][sm] score tracker written in Python.
 It works by parsing your Stats.xml file.
 
+Screenshot (Qt)
+-----
+![A screenshot of smtracker showing scores from the default songs of
+StepMania 5](http://i.imgur.com/jANOutM.png)
+
 Running
 -----
 
