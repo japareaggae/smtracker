@@ -20,6 +20,7 @@ import os
 import sys
 
 import output.plain
+import output.qt
 
 DIFFICULTIES = ["Beginner", "Easy", "Medium", "Hard", "Challenge"]
 LP_LOCATION = "/Save/LocalProfiles/00000000/Stats.xml"
@@ -55,8 +56,16 @@ parser.add_argument('-m', dest='mode', nargs='?', default='dance-single',
                     const='dance-single',
                     help="the game mode to print scores from (defaults to "
                     "'dance-single')")
+parser.add_argument('-o', dest='output', nargs='?', default='qt',
+                    const='plain',
+                    help="the output to use (defaults to qt")
+
 args = parser.parse_args()
 statsxml = vars(args)['file']
 gamemode = vars(args)['mode']
+output_type = vars(args)['output']
 
-output.plain.report(statsxml, gamemode, DIFFICULTIES)
+if output_type == "plain":
+    output.plain.report(statsxml, gamemode, DIFFICULTIES)
+elif output_type == "qt":
+    output.qt.run(statsxml, gamemode, DIFFICULTIES)
