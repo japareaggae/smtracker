@@ -97,6 +97,20 @@ class Viewer(QMainWindow):
                             grade = utils.format.tier_to_grade_sm5(utils.parse.highscore_stat(song[step_counter], "Grade"))
                             percent = float(utils.parse.highscore_stat(song[step_counter], "PercentDP")) * 100
                             cell = QTableWidgetItem('{} ({:.2f}%)'.format(grade, percent))
+
+                            # Get the timings for our song
+                            timings = utils.parse.highscore_timings(song[step_counter])
+
+                            # Certainly there's a better way to do this, but
+                            # I couldn't find any
+                            tooltip = """Marvelous: {}
+Perfect: {}
+Great: {}
+Good: {}
+Boo: {}
+Miss: {}""".format(timings[5], timings[4], timings[3], timings[2], timings[1],
+                   timings[0])
+                            cell.setToolTip(tooltip)
                             self.lock_cell(cell)
                             table.setItem(current_row, current_column, cell)
                         except AttributeError:
