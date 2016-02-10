@@ -57,15 +57,22 @@ parser.add_argument('-m', dest='mode', nargs='?', default='dance-single',
                     help="the game mode to print scores from (defaults to "
                     "'dance-single')")
 parser.add_argument('-o', dest='output', nargs='?', default='qt',
-                    const='plain',
-                    help="the output to use (defaults to qt")
+                    const='qt',
+                    help="the output to use (valid options are 'plain' and "
+                    "'qt', defaults to 'qt')")
+parser.add_argument('-t', dest='theme', nargs='?', default='sm5',
+                    const='sm5',
+                    help="what theme should be used for calculating grades "
+                    "(valid options are 'sm5' and 'itg', defaults to 'sm5')")
+
 
 args = parser.parse_args()
 statsxml = vars(args)['file']
 gamemode = vars(args)['mode']
 output_type = vars(args)['output']
+theme = vars(args)['theme']
 
 if output_type == "plain":
     output.plain.report(statsxml, gamemode, DIFFICULTIES)
 elif output_type == "qt":
-    output.qt.run(statsxml, gamemode, DIFFICULTIES)
+    output.qt.run(statsxml, gamemode, DIFFICULTIES, theme)

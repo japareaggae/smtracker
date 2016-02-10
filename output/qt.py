@@ -29,7 +29,7 @@ import utils.parse
 
 class Viewer(QMainWindow):
 
-    def __init__(self, stats, mode, difficulties):
+    def __init__(self, stats, mode, difficulties, theme):
         """Initializes basic information about the Viewer class."""
         super().__init__()
 
@@ -50,6 +50,8 @@ class Viewer(QMainWindow):
 
         # Define the difficulties
         self.difficulties = difficulties
+
+        self.theme = theme
         self.initUI()
 
     def lock_cell(self, cell):
@@ -61,6 +63,14 @@ class Viewer(QMainWindow):
         MODES = ("dance-single", "dance-double", "pump-single", "pump-double")
         HEADER = ("Group", "Title", "Beginner", "Easy", "Medium", "Hard",
                   "Challenge")
+
+        if self.theme == 'sm5':
+            get_grade = utils.format.tier_to_grade_sm5
+        elif self.theme == 'itg':
+            get_grade = utils.format.tier_to_grade_itg
+        else:
+            print("Error: " + self.theme + " is not a valid theme option")
+            exit(1)
 
         # Combobox for game modes
         combobox = QComboBox()
@@ -105,7 +115,7 @@ class Viewer(QMainWindow):
                     if song[step_counter].attrib['Difficulty'] == diff and \
                        song[step_counter].attrib['StepsType'] == self.mode:
                         try:
-                            grade = utils.format.tier_to_grade_sm5(utils.parse.highscore_stat(song[step_counter], "Grade"))
+                            grade = get_grade(utils.parse.highscore_stat(song[step_counter], "Grade"))
                             percent = float(utils.parse.highscore_stat(song[step_counter], "PercentDP")) * 100
                             cell = QTableWidgetItem('{} ({:.2f}%)'.format(grade, percent))
 
@@ -163,7 +173,7 @@ Miss: {}""".format(timings[5], timings[4], timings[3], timings[2], timings[1],
         self.show()
 
 
-def run(stats, mode, difficulties):
+def run(stats, mode, difficulties, theme):
     app = QApplication(sys.argv)
-    view = Viewer(stats, mode, difficulties)
+    view = Viewer(stats, mode, difficulties, theme)
     sys.exit(app.exec_())
