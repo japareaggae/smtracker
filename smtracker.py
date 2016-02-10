@@ -23,33 +23,32 @@ import output.plain
 import output.qt
 
 DIFFICULTIES = ["Beginner", "Easy", "Medium", "Hard", "Challenge"]
-LP_LOCATION = "/Save/LocalProfiles/00000000/Stats.xml"
-MP_LOCATION = "/Save/MachineProfile/Stats.xml"
 
-# Sets the default location for statsxml.
-if sys.platform.startswith('linux'):
-    LINUX_LOCALPROFILE = os.environ['HOME'] + "/.stepmania-5.0" + LP_LOCATION
-    LINUX_MACHINEPROFILE = os.environ['HOME'] + "/.stepmania-5.0" + MP_LOCATION
-    if os.path.isfile(LINUX_LOCALPROFILE):
-        def_statsxml = LINUX_LOCALPROFILE
-    elif os.path.isfile(LINUX_MACHINEPROFILE):
-        def_statsxml = LINUX_MACHINEPROFILE
-    else:
-        def_statsxml = None
-elif sys.platform.startswith('win32') or sys.platform.startswith('cygwin'):
-    NT_LOCALPROFILE = os.environ['APPDATA'] + "/StepMania 5" + LP_LOCATION
-    NT_MACHINEPROFILE = os.environ['APPDATA'] + "/StepMania 5" + MP_LOCATION
-    if os.path.isfile(NT_LOCALPROFILE):
-        def_statsxml = NT_LOCALPROFILE
-    elif os.path.isfile(NT_MACHINEPROFILE):
-        def_statsxml = NT_MACHINEPROFILE
-    else:
-        def_statsxml = None
+
+def find_stats():
+    """Returns the first LocalProfile, or else returns a MachineProfile."""
+    lp_location = "/Save/LocalProfiles/00000000/Stats.xml"
+    mp_location = "/Save/MachineProfile/Stats.xml"
+    statsxml = None
+
+    if sys.platform.startswith('linux'):
+        local_profile = os.environ['HOME'] + "/.stepmania-5.0" + lp_location
+        machine_profile = os.environ['HOME'] + "/.stepmania-5.0" + mp_location
+    elif sys.platform.startswith('win32') or sys.platform.startswith('cygwin'):
+        local_profile = os.environ['APPDATA'] + "/StepMania 5" + lp_location
+        machine_profile = os.environ['APPDATA'] + "/StepMania 5" + mp_location
+
+    if os.path.isfile(local_profile):
+        statsxml = local_profile
+    elif os.path.isfile(machine_profile):
+        statsxml = machine_profile
+    return statsxml
+
 
 # We can ask the program to read a specific file using argparse.
 parser = argparse.ArgumentParser(description='A StepMania Score Tracker')
 parser.add_argument('file', nargs='?', type=argparse.FileType('r'),
-                    default=def_statsxml, help="the Stats.xml file to read "
+                    default=find_stats(), help="the Stats.xml file to read "
                     "(will read first available StepMania profile if not "
                     "specified)")
 parser.add_argument('-m', dest='mode', nargs='?', default='dance-single',
