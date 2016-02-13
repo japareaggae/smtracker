@@ -26,7 +26,8 @@ from PyQt5.QtWidgets import (QMainWindow, QWidget, QLabel, QComboBox,
                              QTableWidget, QTableWidgetItem, QHBoxLayout,
                              QVBoxLayout, QAction, QMessageBox, QFileDialog,
                              QAbstractItemView, qApp, QApplication)
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, QSize
+from PyQt5.QtGui import QIcon
 
 import smtracker
 import smtracker.utils.format as smformat
@@ -49,6 +50,10 @@ class Viewer(QMainWindow):
 
         # Define the difficulties
         self.difficulties = difficulties
+
+        ### Interface options
+        # Enable icons
+        self.icons_enabled = True
 
         # Create a skeleton table
         if self.stats is not None:
@@ -107,7 +112,11 @@ class Viewer(QMainWindow):
                         try:
                             grade = smformat.highscore_grade(song[step_counter], self.theme)
                             percent = float(parse.highscore_stat(song[step_counter], "PercentDP")) * 100
-                            cell = QTableWidgetItem('{} ({:.2f}%)'.format(grade, percent))
+                            if self.theme == "sm5" and self.icons_enabled is True:
+                                cell = QTableWidgetItem('{:.2f}%'.format(percent))
+                                cell.setIcon(QIcon('smtracker/images/' + grade + '.png'))
+                            else:
+                                cell = QTableWidgetItem('{} ({:.2f}%)'.format(grade, percent))
 
                             # Get the timings for our song
                             timings = parse.highscore_timings(song[step_counter])
@@ -143,6 +152,7 @@ Miss: {}""".format(timings['W1'], timings['W2'], timings['W3'], timings['W4'],
             current_row = current_row + 1
 
         # Final table adjustments
+        self.table.setIconSize(QSize(32, 32))
         self.table.setEditTriggers(QAbstractItemView.NoEditTriggers)
         self.table.setSelectionMode(QAbstractItemView.NoSelection)
         self.table.resizeColumnsToContents()
@@ -223,10 +233,16 @@ Miss: {}""".format(timings['W1'], timings['W2'], timings['W3'], timings['W4'],
                 self.set_stats(tempstats)
 
 
+    def toggle_icons(self, state):
+        """Sets icons_enabled and regenerates the table."""
+        self.icons_enabled = state
+        self.init_table()
+
     def init_menubar(self):
         """Generates the main window menu bar."""
 
-        # Creates the basic actions
+        # Creates the actions for the main menu
+        ### 'File' menu
         exit_action = QAction('E&xit', self)
         exit_action.setShortcut('Ctrl+Q')
         exit_action.setStatusTip('Exit smtracker')
@@ -242,6 +258,13 @@ Miss: {}""".format(timings['W1'], timings['W2'], timings['W3'], timings['W4'],
         open_action.setStatusTip('Open a Stats.xml file')
         open_action.triggered.connect(self.open_file)
 
+        ### 'Options' menu
+        icons_action = QAction('Enable &icons', self)
+        icons_action.setCheckable(True)
+        icons_action.setChecked(self.icons_enabled)
+        icons_action.triggered.connect(lambda: self.toggle_icons(icons_action.isChecked()))
+
+        ### 'About' menu
         about_action = QAction('&About smtracker...', self)
         about_action.triggered.connect(self.about_box)
 
@@ -290,6 +313,10 @@ Miss: {}""".format(timings['W1'], timings['W2'], timings['W3'], timings['W4'],
         # Add the rest of the actions to the menubar
         file_menu.addAction(export_action)
         file_menu.addAction(exit_action)
+
+        options_menu = menubar.addMenu('&Options')
+        options_menu.addAction(icons_action)
+
         about_menu = menubar.addMenu('&About')
         about_menu.addAction(about_action)
         about_menu.addAction(qt_action)

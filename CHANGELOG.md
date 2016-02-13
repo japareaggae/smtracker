@@ -3,6 +3,7 @@
 
 * Qt: Added a menu for selecting a local profile or the machine profile
   if any of those are available in the machine
+* Qt: Add icons to table cells (only on sm5 grading system for now)
 * Qt: Expose beat game modes on the game mode combobox
 
 ### Bugfixes
