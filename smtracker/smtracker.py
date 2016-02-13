@@ -46,32 +46,35 @@ def find_stats():
 
 
 # We can ask the program to read a specific file using argparse.
-parser = argparse.ArgumentParser(description='A StepMania Score Tracker')
-parser.add_argument('file', nargs='?', type=argparse.FileType('r'),
-                    default=find_stats(), help="the Stats.xml file to read "
-                    "(will read first available StepMania profile if not "
-                    "specified)")
-parser.add_argument('-m', dest='mode', nargs='?', default='dance-single',
-                    const='dance-single',
-                    help="the game mode to print scores from (defaults to "
-                    "'dance-single')")
-parser.add_argument('-o', dest='output', nargs='?', default='qt',
-                    const='qt',
-                    help="the output to use (valid options are 'plain' and "
-                    "'qt', defaults to 'qt')")
-parser.add_argument('-t', dest='theme', nargs='?', default='sm5',
-                    const='sm5',
-                    help="what theme should be used for calculating grades "
-                    "(valid options are 'sm5' and 'itg', defaults to 'sm5')")
+def get_argparser():
+    """Creates an argparse parser."""
+    parser = argparse.ArgumentParser(description='A StepMania Score Tracker')
+    parser.add_argument('file', nargs='?', type=argparse.FileType('r'),
+                        default=find_stats(), help="the Stats.xml file to read "
+                        "(will read first available StepMania profile if not "
+                        "specified)")
+    parser.add_argument('-m', dest='mode', nargs='?', default='dance-single',
+                        const='dance-single',
+                        help="the game mode to print scores from (defaults to "
+                        "'dance-single')")
+    parser.add_argument('-o', dest='output', nargs='?', default='qt',
+                        const='qt',
+                        help="the output to use (valid options are 'plain' and "
+                        "'qt', defaults to 'qt')")
+    parser.add_argument('-t', dest='theme', nargs='?', default='sm5',
+                        const='sm5',
+                        help="what theme should be used for calculating grades "
+                        "(valid options are 'sm5' and 'itg', defaults to 'sm5')")
+    return parser
 
+def main():
+    args = get_argparser()
+    statsxml = vars(args)['file']
+    gamemode = vars(args)['mode']
+    output_type = vars(args)['output']
+    theme = vars(args)['theme']
 
-args = parser.parse_args()
-statsxml = vars(args)['file']
-gamemode = vars(args)['mode']
-output_type = vars(args)['output']
-theme = vars(args)['theme']
-
-if output_type == "plain":
-    output.plain.report(statsxml, gamemode, DIFFICULTIES)
-elif output_type == "qt":
-    output.qt.run(statsxml, gamemode, DIFFICULTIES, theme)
+    if output_type == "plain":
+        output.plain.report(statsxml, gamemode, DIFFICULTIES)
+    elif output_type == "qt":
+        output.qt.run(statsxml, gamemode, DIFFICULTIES, theme)
