@@ -68,11 +68,12 @@ def get_argparser():
     return parser
 
 def main():
-    args = get_argparser()
-    statsxml = vars(args)['file']
-    gamemode = vars(args)['mode']
-    output_type = vars(args)['output']
-    theme = vars(args)['theme']
+    parser = get_argparser()
+    args = parser.parse_args()
+    statsxml = args.file
+    gamemode = args.mode
+    output_type = args.output
+    theme = args.theme
 
     if output_type == "plain":
         output.plain.report(statsxml, gamemode, DIFFICULTIES)
