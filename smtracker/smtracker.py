@@ -19,8 +19,8 @@ import argparse
 import os
 import sys
 
-import output.plain
-import output.qt
+import smtracker.output.plain as plain
+import smtracker.output.qt as qt
 
 DIFFICULTIES = ["Beginner", "Easy", "Medium", "Hard", "Challenge"]
 
@@ -76,6 +76,6 @@ def main():
     theme = args.theme
 
     if output_type == "plain":
-        output.plain.report(statsxml, gamemode, DIFFICULTIES)
+        plain.report(statsxml, gamemode, DIFFICULTIES)
     elif output_type == "qt":
-        output.qt.run(statsxml, gamemode, DIFFICULTIES, theme)
+        qt.run(statsxml, gamemode, DIFFICULTIES, theme)

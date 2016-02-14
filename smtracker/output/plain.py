@@ -17,8 +17,8 @@
 
 import xml.etree.ElementTree as etree
 
-import utils.format
-import utils.parse
+import smtracker.utils.format as smformat
+import smtracker.utils.parse as parse
 
 
 def report(stats_xml, mode, difficulties):
@@ -52,8 +52,8 @@ def report(stats_xml, mode, difficulties):
             try:
                 if Song[step_counter].attrib['Difficulty'] == diff and Song[step_counter].attrib['StepsType'] == mode:
                     try:
-                        grade = utils.format.tier_to_grade_sm5(utils.parse.highscore_stat(Song[step_counter], "Grade"))
-                        percent = float(utils.parse.highscore_stat(Song[step_counter], "PercentDP")) * 100
+                        grade = smformat.tier_to_grade_sm5(parse.highscore_stat(Song[step_counter], "Grade"))
+                        percent = float(parse.highscore_stat(Song[step_counter], "PercentDP")) * 100
                         print('+++ {:10}: {:3} ({:.2f})'.format(diff, grade, percent))
                     except AttributeError:
                         print("--- " + diff)

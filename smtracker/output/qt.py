@@ -23,8 +23,8 @@ from PyQt5.QtWidgets import (QMainWindow, QWidget, QLabel, QComboBox,
 from PyQt5.QtCore import Qt
 import xml.etree.ElementTree as etree
 
-import utils.format
-import utils.parse
+import smtracker.utils.format as smformat
+import smtracker.utils.parse as parse
 
 
 class Viewer(QMainWindow):
@@ -65,9 +65,9 @@ class Viewer(QMainWindow):
                   "Challenge")
 
         if self.theme == 'sm5':
-            get_grade = utils.format.tier_to_grade_sm5
+            get_grade = smformat.tier_to_grade_sm5
         elif self.theme == 'itg':
-            get_grade = utils.format.tier_to_grade_itg
+            get_grade = smformat.tier_to_grade_itg
         else:
             print("Error: " + self.theme + " is not a valid theme option")
             exit(1)
@@ -115,12 +115,12 @@ class Viewer(QMainWindow):
                     if song[step_counter].attrib['Difficulty'] == diff and \
                        song[step_counter].attrib['StepsType'] == self.mode:
                         try:
-                            grade = get_grade(utils.parse.highscore_stat(song[step_counter], "Grade"))
-                            percent = float(utils.parse.highscore_stat(song[step_counter], "PercentDP")) * 100
+                            grade = get_grade(parse.highscore_stat(song[step_counter], "Grade"))
+                            percent = float(parse.highscore_stat(song[step_counter], "PercentDP")) * 100
                             cell = QTableWidgetItem('{} ({:.2f}%)'.format(grade, percent))
 
                             # Get the timings for our song
-                            timings = utils.parse.highscore_timings(song[step_counter])
+                            timings = parse.highscore_timings(song[step_counter])
 
                             # TODO: Figure out if there's a cleaner way of
                             # doing this
