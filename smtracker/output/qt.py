@@ -60,7 +60,7 @@ class Viewer(QMainWindow):
 
     def initUI(self):
         """Initializes the user interface."""
-        MODES = ("dance-single", "dance-double", "pump-single", "pump-double")
+        #MODES = ("dance-single", "dance-double", "pump-single", "pump-double")
         HEADER = ("Group", "Title", "Beginner", "Easy", "Medium", "Hard",
                   "Challenge")
 
@@ -73,10 +73,10 @@ class Viewer(QMainWindow):
             exit(1)
 
         # Combobox for game modes
-        combobox = QComboBox()
-        combobox.addItems(MODES)
-        combobox.setCurrentText(self.mode)
-        combolabel = QLabel("Game mode:")
+        #combobox = QComboBox()
+        #combobox.addItems(MODES)
+        #combobox.setCurrentText(self.mode)
+        #combolabel = QLabel("Game mode:")
 
         # Create our table
         table = QTableWidget()
@@ -155,11 +155,11 @@ Miss: {}""".format(timings[5], timings[4], timings[3], timings[2], timings[1],
         table.setSortingEnabled(True)
         table.sortByColumn(0, Qt.AscendingOrder)
 
-        hbox = QHBoxLayout()
-        hbox.addWidget(combolabel)
-        hbox.addWidget(combobox, 1)
+        #hbox = QHBoxLayout()
+        #hbox.addWidget(combolabel)
+        #hbox.addWidget(combobox, 1)
         vbox = QVBoxLayout()
-        vbox.addLayout(hbox)
+        #vbox.addLayout(hbox)
         vbox.addWidget(table)
 
         container = QWidget()
