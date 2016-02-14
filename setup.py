@@ -11,7 +11,7 @@ with open(path.join(here, 'README.md'), encoding='utf-8') as f:
 
 setup(
     name='smtracker',
-    version='1.0.0',
+    version='1.0.1',
     description='A StepMania score tracker',
     long_description=long_description,
     url='https://github.com/japareaggae/smtracker-python',
