@@ -1,0 +1,21 @@
+# Maintainer: Renan Guilherme <japareaggae@gmail.com>
+pkgname=smtracker
+pkgver=1.0.0
+pkgrel=1
+pkgdesc="A StepMania score tracker"
+arch=('any')
+url="https://github.com/japareaggae/smtracker-python"
+license=('GPL3')
+depends=('python')
+optdepends=('stepmania')
+options=(!emptydirs)
+source=("$pkgname-$pkgver.tar.gz")
+md5sums=('df8de1b618bf182d2839dfe05b75025a')
+sha256sums=('e342489bb3048768c5eb388b1345313cd5928b0d4ed293b8866e40df16114862')
+
+package() {
+  cd "$srcdir/$pkgname-$pkgver"
+  python setup.py install --root="$pkgdir/" --optimize=1
+}
+
+# vim:set ts=2 sw=2 et:
