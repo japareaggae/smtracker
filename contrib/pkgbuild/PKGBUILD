@@ -9,9 +9,9 @@ license=('GPL3')
 depends=('python' 'python-pyqt5')
 optdepends=('stepmania')
 options=(!emptydirs)
-source=("$pkgname-$pkgver.tar.gz")
-md5sums=('df8de1b618bf182d2839dfe05b75025a')
-sha256sums=('e342489bb3048768c5eb388b1345313cd5928b0d4ed293b8866e40df16114862')
+source=("https://github.com/japareaggae/${pkgname}/archive/v${pkgver}.tar.gz")
+md5sums=('2a6c71fd87b4a5bcf5af96b0a0741d82')
+sha256sums=('63aed659331a045cada3ffb696abc3b92c9c360e46b83bb83cd094b0e9035f82')
 
 package() {
   cd "$srcdir/$pkgname-$pkgver"
