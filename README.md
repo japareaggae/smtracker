@@ -9,14 +9,13 @@ Screenshot (Qt)
 ![A screenshot of smtracker showing scores from the default songs of
 StepMania 5](http://i.imgur.com/jANOutM.png)
 
-Running
+Requirements
 -----
 
-* **On Windows**: Install [Python 3][py3]. Optionally, install [PyQt5][pyqt5]
-if you want to use the graphical interface.
-* **On GNU/Linux**: Install Python 3 using your distribution's package
-manager. Optionally, install PyQt5 if you want to use the graphical
-interface.
+You will need Python 3 and PyQt5. If you're on Windows, you will need
+[Python 3.4][py3] in order to install [PyQt5][pyqt5]. If you're using
+GNU/Linux, just install both Python 3 and PyQt5 from your distro's
+package repository.
 
 Known Issues
 -----
