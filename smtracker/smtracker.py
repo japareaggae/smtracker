@@ -65,6 +65,8 @@ def get_argparser():
                         const='sm5',
                         help="what theme should be used for calculating grades "
                         "(valid options are 'sm5' and 'itg', defaults to 'sm5')")
+    parser.add_argument('-i', dest='ignore', nargs='?',
+                        help="ignore the specified difficulty")
     return parser
 
 def main():
@@ -74,6 +76,13 @@ def main():
     gamemode = args.mode
     output_type = args.output
     theme = args.theme
+
+    if args.ignore:
+        try:
+            DIFFICULTIES.remove(args.ignore)
+        except ValueError:
+            print("Warning: {} is not a valid difficulty".format(args.ignore))
+
 
     if output_type == "plain":
         plain.report(statsxml, gamemode, DIFFICULTIES)
