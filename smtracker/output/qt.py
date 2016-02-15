@@ -58,9 +58,8 @@ class Viewer(QMainWindow):
         """Disables editing a QTableWidgetItem."""
         cell.setFlags(Qt.ItemIsSelectable and Qt.ItemIsEnabled)
 
-    def initUI(self):
-        """Initializes the user interface."""
-        #MODES = ("dance-single", "dance-double", "pump-single", "pump-double")
+    def init_table(self):
+        """Generates a table with the song scores."""
         HEADER = ("Group", "Title", "Beginner", "Easy", "Medium", "Hard",
                   "Challenge")
 
@@ -72,15 +71,9 @@ class Viewer(QMainWindow):
             print("Error: " + self.theme + " is not a valid theme option")
             exit(1)
 
-        # Combobox for game modes
-        #combobox = QComboBox()
-        #combobox.addItems(MODES)
-        #combobox.setCurrentText(self.mode)
-        #combolabel = QLabel("Game mode:")
-
         # Create our table
-        table = QTableWidget()
-        table.setColumnCount(7)
+        song_count = len(self.stats.find("SongScores"))
+        table = QTableWidget(song_count, 7)
 
         # Sets the header cells
         for head in HEADER:
@@ -92,7 +85,6 @@ class Viewer(QMainWindow):
         current_row = 0
         for song in self.stats.find("SongScores"):
             current_column = 0
-            table.insertRow(current_row)
 
             # Get group and title
             location = song.attrib['Dir'].split('/')
@@ -154,13 +146,25 @@ Miss: {}""".format(timings[5], timings[4], timings[3], timings[2], timings[1],
         table.resizeColumnsToContents()
         table.setSortingEnabled(True)
         table.sortByColumn(0, Qt.AscendingOrder)
+        return table
+
+
+    def initUI(self):
+        """Initializes the user interface."""
+        #MODES = ("dance-single", "dance-double", "pump-single", "pump-double")
+
+        # Combobox for game modes
+        #combobox = QComboBox()
+        #combobox.addItems(MODES)
+        #combobox.setCurrentText(self.mode)
+        #combolabel = QLabel("Game mode:")
 
         #hbox = QHBoxLayout()
         #hbox.addWidget(combolabel)
         #hbox.addWidget(combobox, 1)
         vbox = QVBoxLayout()
         #vbox.addLayout(hbox)
-        vbox.addWidget(table)
+        vbox.addWidget(self.init_table())
 
         container = QWidget()
         container.setLayout(vbox)
