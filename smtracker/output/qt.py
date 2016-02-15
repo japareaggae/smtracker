@@ -51,12 +51,18 @@ class Viewer(QMainWindow):
         # Define the difficulties
         self.difficulties = difficulties
 
+        # Create a skeleton table
+        song_count = len(self.stats.find("SongScores"))
+        self.table = QTableWidget(song_count, 7)
+
         self.theme = theme
         self.initUI()
+
 
     def lock_cell(self, cell):
         """Disables editing a QTableWidgetItem."""
         cell.setFlags(Qt.ItemIsSelectable and Qt.ItemIsEnabled)
+
 
     def init_table(self):
         """Generates a table with the song scores."""
@@ -75,12 +81,15 @@ class Viewer(QMainWindow):
         song_count = len(self.stats.find("SongScores"))
         table = QTableWidget(song_count, 7)
 
+        self.table.clearContents()
+        self.table.setSortingEnabled(False)
+
         # Sets the header cells
         for head in HEADER:
             where = HEADER.index(head)
             headeritem = QTableWidgetItem()
             headeritem.setText(head)
-            table.setHorizontalHeaderItem(where, headeritem)
+            self.table.setHorizontalHeaderItem(where, headeritem)
 
         current_row = 0
         for song in self.stats.find("SongScores"):
@@ -91,13 +100,13 @@ class Viewer(QMainWindow):
 
             # Create group cell
             group = QTableWidgetItem(location[1])
-            table.setItem(current_row, current_column, group)
+            self.table.setItem(current_row, current_column, group)
             self.lock_cell(group)
             current_column = current_column + 1
 
             # Create title cell
             title = QTableWidgetItem(location[2])
-            table.setItem(current_row, current_column, title)
+            self.table.setItem(current_row, current_column, title)
             self.lock_cell(title)
             current_column = current_column + 1
 
@@ -125,46 +134,55 @@ Miss: {}""".format(timings[5], timings[4], timings[3], timings[2], timings[1],
                    timings[0])
                             cell.setToolTip(tooltip)
                             self.lock_cell(cell)
-                            table.setItem(current_row, current_column, cell)
+                            self.table.setItem(current_row, current_column, cell)
                         except AttributeError:
                             cell = QTableWidgetItem()
                             self.lock_cell(cell)
-                            table.setItem(current_row, current_column, cell)
+                            self.table.setItem(current_row, current_column, cell)
                         step_counter = step_counter + 1
                     else:
                         cell = QTableWidgetItem()
                         self.lock_cell(cell)
-                        table.setItem(current_row, current_column, cell)
+                        self.table.setItem(current_row, current_column, cell)
                 except IndexError:
                     cell = QTableWidgetItem()
                     self.lock_cell(cell)
-                    table.setItem(current_row, current_column, cell)
+                    self.table.setItem(current_row, current_column, cell)
                 current_column = current_column + 1
             current_row = current_row + 1
 
         # Final table adjustments
-        table.resizeColumnsToContents()
-        table.setSortingEnabled(True)
-        table.sortByColumn(0, Qt.AscendingOrder)
-        return table
+        self.table.resizeColumnsToContents()
+        self.table.setSortingEnabled(True)
+        self.table.sortByColumn(0, Qt.AscendingOrder)
+
+
+    def combobox_activated(self, combobox):
+        """Sets the current game mode and regenerates the table."""
+        self.mode = combobox.currentText()
+        self.init_table()
 
 
     def initUI(self):
         """Initializes the user interface."""
-        #MODES = ("dance-single", "dance-double", "pump-single", "pump-double")
+        MODES = ("dance-single", "dance-double", "pump-single", "pump-double",
+                 "pump-halfdouble")
 
         # Combobox for game modes
-        #combobox = QComboBox()
-        #combobox.addItems(MODES)
-        #combobox.setCurrentText(self.mode)
-        #combolabel = QLabel("Game mode:")
+        combobox = QComboBox()
+        combobox.addItems(MODES)
+        combobox.setCurrentText(self.mode)
+        combolabel = QLabel("Game mode:")
+        combobox.activated.connect(lambda: self.combobox_activated(combobox))
 
-        #hbox = QHBoxLayout()
-        #hbox.addWidget(combolabel)
-        #hbox.addWidget(combobox, 1)
+        self.init_table()
+
+        hbox = QHBoxLayout()
+        hbox.addWidget(combolabel)
+        hbox.addWidget(combobox, 1)
         vbox = QVBoxLayout()
-        #vbox.addLayout(hbox)
-        vbox.addWidget(self.init_table())
+        vbox.addLayout(hbox)
+        vbox.addWidget(self.table)
 
         container = QWidget()
         container.setLayout(vbox)
