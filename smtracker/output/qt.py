@@ -53,7 +53,7 @@ class Viewer(QMainWindow):
 
         # Create a skeleton table
         song_count = len(self.stats.find("SongScores"))
-        self.table = QTableWidget(song_count, 7)
+        self.table = QTableWidget(song_count, len(self.difficulties) + 2)
 
         self.theme = theme
         self.initUI()
@@ -66,8 +66,8 @@ class Viewer(QMainWindow):
 
     def init_table(self):
         """Generates a table with the song scores."""
-        HEADER = ("Group", "Title", "Beginner", "Easy", "Medium", "Hard",
-                  "Challenge")
+        HEADER = ["Group", "Title"]
+        HEADER.extend(self.difficulties)
 
         if self.theme == 'sm5':
             get_grade = smformat.tier_to_grade_sm5
