@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>StepMania scores for {{ name }}</title>
+</head>
+<body>
+	<p>Last updated on {{ last_played }}</p>
+	<table>
+		<thead>
+		<tr>
+			<td></td>
+			<td></td>
+			{% for diff in difficulties %}
+			<td colspan=8>{{ diff }}</td>
+			{% endfor %}
+		</tr>
+		<tr>
+			<td>Group</td>
+			<td>Title</td>
+			{% for diff in difficulties %}
+			<td>Grade</td>
+			<td>Percent</td>
+			<td>Marvelous</td>
+			<td>Perfect</td>
+			<td>Great</td>
+			<td>Good</td>
+			<td>Boo</td>
+			<td>Miss</td>
+			{% endfor %}
+		</tr>
+		</thead>
+		<tbody>
+		{% for song in songs %}
+		<tr>
+			<td>{{ song.group }}</td>
+			<td>{{ song.title }}</td>
+			{% for score in song.scores %}
+			<td>{{ score.grade }}</td>
+			<td>{{ score.perc }}</td>
+			<td>{{ score.W1 }}</td>
+			<td>{{ score.W2 }}</td>
+			<td>{{ score.W3 }}</td>
+			<td>{{ score.W4 }}</td>
+			<td>{{ score.W5 }}</td>
+			<td>{{ score.Miss }}</td>
+			{% endfor %}
+		</tr>
+		{% endfor %}
+		</tbody>
+	</table>
+</body>
+</html>

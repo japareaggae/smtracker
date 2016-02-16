@@ -24,6 +24,7 @@ import xml.etree.ElementTree as etree
 
 import smtracker.output.plain as plain
 import smtracker.output.qt as qt
+import smtracker.output.html as html
 
 DIFFICULTIES = ["Beginner", "Easy", "Medium", "Hard", "Challenge"]
 
@@ -62,8 +63,8 @@ def get_argparser():
                         "'dance-single')")
     parser.add_argument('-o', dest='output', nargs='?', default='qt',
                         const='qt',
-                        help="the output to use (valid options are 'plain' and "
-                        "'qt', defaults to 'qt')")
+                        help="the output to use (valid options are 'plain', "
+                        "'html' and 'qt', defaults to 'qt')")
     parser.add_argument('-t', dest='theme', nargs='?', default='sm5',
                         const='sm5',
                         help="what theme should be used for calculating grades "
@@ -97,3 +98,5 @@ def main():
         plain.report(stats, gamemode, DIFFICULTIES)
     elif output_type == "qt":
         qt.run(stats, gamemode, DIFFICULTIES, theme)
+    elif output_type == "html":
+        html.main(stats, gamemode, DIFFICULTIES, theme)
