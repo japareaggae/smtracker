@@ -130,8 +130,8 @@ Perfect: {}
 Great: {}
 Good: {}
 Boo: {}
-Miss: {}""".format(timings[5], timings[4], timings[3], timings[2], timings[1],
-                   timings[0])
+Miss: {}""".format(timings['W1'], timings['W2'], timings['W3'], timings['W4'],
+                   timings['W5'], timings['Miss'])
                             cell.setToolTip(tooltip)
                             self.lock_cell(cell)
                             self.table.setItem(current_row, current_column, cell)

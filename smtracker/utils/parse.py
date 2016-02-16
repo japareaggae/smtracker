@@ -52,12 +52,12 @@ def highscore_timings(step):
     step -- the Steps ElementTree to search
     """
     notes = step.find("HighScoreList").find("HighScore").find("TapNoteScores")
-    timings = [int(notes.find("Miss").text),
-               int(notes.find("W5").text),
-               int(notes.find("W4").text),
-               int(notes.find("W3").text),
-               int(notes.find("W2").text),
-               int(notes.find("W1").text)]
+    timings = {'Miss': int(notes.find("Miss").text),
+               'W5': int(notes.find("W5").text),
+               'W4': int(notes.find("W4").text),
+               'W3': int(notes.find("W3").text),
+               'W2': int(notes.find("W2").text),
+               'W1': int(notes.find("W1").text)}
     return timings
 
 # TODO: Should we just calculate tiers and grades by hand?
