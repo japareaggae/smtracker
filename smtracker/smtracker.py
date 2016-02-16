@@ -15,6 +15,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+"""Initialization of smtracker and its options."""
+
 import argparse
 import os
 import sys
@@ -70,6 +72,7 @@ def get_argparser():
     return parser
 
 def main():
+    """Runs smtracker."""
     parser = get_argparser()
     args = parser.parse_args()
     statsxml = args.file

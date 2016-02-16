@@ -15,6 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+"""A StepMania score tracker."""
 
 __version__ = "1.1.0"
 __description__ = "A StepMania score tracker"
