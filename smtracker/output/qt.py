@@ -19,10 +19,12 @@ import sys
 
 from PyQt5.QtWidgets import (QMainWindow, QWidget, QLabel, QComboBox,
                              QTableWidget, QTableWidgetItem, QHBoxLayout,
-                             QVBoxLayout, QAction, qApp, QApplication)
+                             QVBoxLayout, QAction, QMessageBox, qApp,
+                             QApplication)
 from PyQt5.QtCore import Qt
 import xml.etree.ElementTree as etree
 
+import smtracker
 import smtracker.utils.format as smformat
 import smtracker.utils.parse as parse
 
@@ -162,20 +164,36 @@ Miss: {}""".format(timings[5], timings[4], timings[3], timings[2], timings[1],
         self.mode = combobox.currentText()
         self.init_table()
 
+
+    def about_box(self):
+        QMessageBox.about(self, "About smtracker", smtracker.__description__ +
+                " (version " + smtracker.__version__ + ")")
+
+
     def init_menubar(self):
-        exitAction = QAction('&Exit', self)
+        exitAction = QAction('E&xit', self)
         exitAction.setShortcut('Ctrl+Q')
         exitAction.setStatusTip('Exit smtracker')
         exitAction.triggered.connect(qApp.exit)
 
         exportAction = QAction('&Export', self)
+        exportAction.setShortcut('Ctrl+E')
         exportAction.setStatusTip('Export table as HTML file')
         #exitAction.triggered.connect(lambda: html.output)
+
+        aboutAction = QAction('&About smtracker...', self)
+        aboutAction.triggered.connect(self.about_box)
+
+        qtAction = QAction('About &Qt...', self)
+        qtAction.triggered.connect(QApplication.aboutQt)
 
         menubar = self.menuBar()
         fileMenu = menubar.addMenu('&File')
         fileMenu.addAction(exportAction)
         fileMenu.addAction(exitAction)
+        aboutMenu = menubar.addMenu('&About')
+        aboutMenu.addAction(aboutAction)
+        aboutMenu.addAction(qtAction)
 
     def initUI(self):
         """Initializes the user interface."""
