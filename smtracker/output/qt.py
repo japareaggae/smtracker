@@ -18,7 +18,6 @@
 """A Qt-based interface for viewing your scores."""
 
 import sys
-import xml.etree.ElementTree as etree
 
 from PyQt5.QtWidgets import (QMainWindow, QWidget, QLabel, QComboBox,
                              QTableWidget, QTableWidgetItem, QHBoxLayout,
@@ -39,8 +38,7 @@ class Viewer(QMainWindow):
         super().__init__()
 
         # Define our XML tree
-        tree = etree.parse(stats)
-        self.stats = tree.getroot()
+        self.stats = stats
 
         # Get basic information from the stats
         self.ismachine = self.stats.find("GeneralData").find("IsMachine").text

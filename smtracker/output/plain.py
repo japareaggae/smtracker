@@ -17,16 +17,12 @@
 
 """A plain text interface for visualizing your scores."""
 
-import xml.etree.ElementTree as etree
-
 import smtracker.utils.format as smformat
 import smtracker.utils.parse as parse
 
 
-def report(stats_xml, mode, difficulties):
+def report(Stats, mode, difficulties):
     """Prints the plain text report."""
-    tree = etree.parse(stats_xml)
-    Stats = tree.getroot()
     IsMachine = Stats.find("GeneralData").find("IsMachine").text
     LastPlayedDate = Stats.find("GeneralData").find("LastPlayedDate").text
 

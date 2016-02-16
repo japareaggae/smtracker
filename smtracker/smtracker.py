@@ -20,6 +20,7 @@
 import argparse
 import os
 import sys
+import xml.etree.ElementTree as etree
 
 import smtracker.output.plain as plain
 import smtracker.output.qt as qt
@@ -80,6 +81,10 @@ def main():
     output_type = args.output
     theme = args.theme
 
+    # Parse the statsxml file and return a tree for the outputs
+    stats = etree.parse(statsxml).getroot()
+
+    # Remove ignored difficulties from difficulties array
     if args.ignore:
         for diff in args.ignore:
             try:
@@ -89,6 +94,6 @@ def main():
 
 
     if output_type == "plain":
-        plain.report(statsxml, gamemode, DIFFICULTIES)
+        plain.report(stats, gamemode, DIFFICULTIES)
     elif output_type == "qt":
-        qt.run(statsxml, gamemode, DIFFICULTIES, theme)
+        qt.run(stats, gamemode, DIFFICULTIES, theme)
