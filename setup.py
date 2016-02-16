@@ -1,8 +1,25 @@
 #!/usr/bin/python3
+# Copyright (C) 2016 Renan Guilherme Lebre Ramos
+# This file is a part of smtracker.
+#
+# smtracker is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from setuptools import setup, find_packages
 from codecs import open
 from os import path
+
+import smtracker
 
 here = path.abspath(path.dirname(__file__))
 with open(path.join(here, 'README.md'), encoding='utf-8') as f:
@@ -11,10 +28,10 @@ with open(path.join(here, 'README.md'), encoding='utf-8') as f:
 
 setup(
     name='smtracker',
-    version='1.1.0',
-    description='A StepMania score tracker',
+    version=smtracker.__version__,
+    description=smtracker.__description__,
     long_description=long_description,
-    url='https://github.com/japareaggae/smtracker-python',
+    url=smtracker.__url__,
     author='Renan Guilherme Lebre Ramos',
     author_email='japareaggae@gmail.com',
     license='GPLv3+',
