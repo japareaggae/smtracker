@@ -15,6 +15,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+"""A plain text interface for visualizing your scores."""
+
 import xml.etree.ElementTree as etree
 
 import smtracker.utils.format as smformat
@@ -22,6 +24,7 @@ import smtracker.utils.parse as parse
 
 
 def report(stats_xml, mode, difficulties):
+    """Prints the plain text report."""
     tree = etree.parse(stats_xml)
     Stats = tree.getroot()
     IsMachine = Stats.find("GeneralData").find("IsMachine").text

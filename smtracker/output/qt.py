@@ -15,14 +15,16 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+"""A Qt-based interface for viewing your scores."""
+
 import sys
+import xml.etree.ElementTree as etree
 
 from PyQt5.QtWidgets import (QMainWindow, QWidget, QLabel, QComboBox,
                              QTableWidget, QTableWidgetItem, QHBoxLayout,
                              QVBoxLayout, QAction, QMessageBox, qApp,
                              QApplication)
 from PyQt5.QtCore import Qt
-import xml.etree.ElementTree as etree
 
 import smtracker
 import smtracker.utils.format as smformat
@@ -30,6 +32,7 @@ import smtracker.utils.parse as parse
 
 
 class Viewer(QMainWindow):
+    """The main window for the application."""
 
     def __init__(self, stats, mode, difficulties, theme):
         """Initializes basic information about the Viewer class."""
@@ -97,7 +100,7 @@ class Viewer(QMainWindow):
         for song in self.stats.find("SongScores"):
             current_column = 0
 
-            # Get group and title
+            # Get the song's group and title
             location = song.attrib['Dir'].split('/')
 
             # Create group cell
@@ -112,6 +115,7 @@ class Viewer(QMainWindow):
             self.lock_cell(title)
             current_column = current_column + 1
 
+            # step_counter will be used for traversing the scores in a song
             step_counter = 0
             for diff in self.difficulties:
                 try:
@@ -137,15 +141,21 @@ Miss: {}""".format(timings[5], timings[4], timings[3], timings[2], timings[1],
                             cell.setToolTip(tooltip)
                             self.lock_cell(cell)
                             self.table.setItem(current_row, current_column, cell)
+                        # This exception is reached if a Song was played, but
+                        # has no score (AutoPlay, PlayerAutoPlay)
                         except AttributeError:
                             cell = QTableWidgetItem()
                             self.lock_cell(cell)
                             self.table.setItem(current_row, current_column, cell)
                         step_counter = step_counter + 1
+                    # If there are no scores for the current difficulty,
+                    # add an empty cell instead
                     else:
                         cell = QTableWidgetItem()
                         self.lock_cell(cell)
                         self.table.setItem(current_row, current_column, cell)
+                # This exception is reached if we already reached the last
+                # score on a song (using step_counter)
                 except IndexError:
                     cell = QTableWidgetItem()
                     self.lock_cell(cell)
@@ -166,11 +176,13 @@ Miss: {}""".format(timings[5], timings[4], timings[3], timings[2], timings[1],
 
 
     def about_box(self):
+        """Shows an about box with information about smtracker."""
         QMessageBox.about(self, "About smtracker", smtracker.__description__ +
-                " (version " + smtracker.__version__ + ")")
+                          " (version " + smtracker.__version__ + ")")
 
 
     def init_menubar(self):
+        """Generates the main window menu bar."""
         exitAction = QAction('E&xit', self)
         exitAction.setShortcut('Ctrl+Q')
         exitAction.setStatusTip('Exit smtracker')
@@ -231,6 +243,7 @@ Miss: {}""".format(timings[5], timings[4], timings[3], timings[2], timings[1],
 
 
 def run(stats, mode, difficulties, theme):
+    """Runs the user interface."""
     app = QApplication(sys.argv)
     view = Viewer(stats, mode, difficulties, theme)
     sys.exit(app.exec_())
