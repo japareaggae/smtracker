@@ -224,10 +224,9 @@ Miss: {}""".format(timings[5], timings[4], timings[3], timings[2], timings[1],
         status = 'Profile: {} // Last played: {}'.format(self.displayname,
                                                          self.lastplayed)
         self.statusBar().showMessage(status)
-        self.setStatusTip(status)
         container.setStatusTip(status)
         self.setWindowTitle('smtracker - StepMania Score Tracker')
-        self.setGeometry(48, 48, 1200, 700)
+        self.resize(1200, 700)
         self.show()
 
 
