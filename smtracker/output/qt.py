@@ -19,7 +19,7 @@ import sys
 
 from PyQt5.QtWidgets import (QMainWindow, QWidget, QLabel, QComboBox,
                              QTableWidget, QTableWidgetItem, QHBoxLayout,
-                             QVBoxLayout, QApplication)
+                             QVBoxLayout, QAction, qApp, QApplication)
 from PyQt5.QtCore import Qt
 import xml.etree.ElementTree as etree
 
@@ -162,6 +162,20 @@ Miss: {}""".format(timings[5], timings[4], timings[3], timings[2], timings[1],
         self.mode = combobox.currentText()
         self.init_table()
 
+    def init_menubar(self):
+        exitAction = QAction('&Exit', self)
+        exitAction.setShortcut('Ctrl+Q')
+        exitAction.setStatusTip('Exit smtracker')
+        exitAction.triggered.connect(qApp.exit)
+
+        exportAction = QAction('&Export', self)
+        exportAction.setStatusTip('Export table as HTML file')
+        #exitAction.triggered.connect(lambda: html.output)
+
+        menubar = self.menuBar()
+        fileMenu = menubar.addMenu('&File')
+        fileMenu.addAction(exportAction)
+        fileMenu.addAction(exitAction)
 
     def initUI(self):
         """Initializes the user interface."""
@@ -175,6 +189,7 @@ Miss: {}""".format(timings[5], timings[4], timings[3], timings[2], timings[1],
         combolabel = QLabel("Game mode:")
         combobox.activated.connect(lambda: self.combobox_activated(combobox))
 
+        self.init_menubar()
         self.init_table()
 
         hbox = QHBoxLayout()
@@ -188,8 +203,11 @@ Miss: {}""".format(timings[5], timings[4], timings[3], timings[2], timings[1],
         container.setLayout(vbox)
         self.setCentralWidget(container)
 
-        self.statusBar().showMessage('Profile: {} // Last played: {}'.format(
-            self.displayname, self.lastplayed))
+        status = 'Profile: {} // Last played: {}'.format(self.displayname,
+                                                         self.lastplayed)
+        self.statusBar().showMessage(status)
+        self.setStatusTip(status)
+        container.setStatusTip(status)
         self.setWindowTitle('smtracker - StepMania Score Tracker')
         self.setGeometry(48, 48, 1200, 700)
         self.show()
