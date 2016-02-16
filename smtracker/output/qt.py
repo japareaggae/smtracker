@@ -239,5 +239,5 @@ Miss: {}""".format(timings[5], timings[4], timings[3], timings[2], timings[1],
 def run(stats, mode, difficulties, theme):
     """Runs the user interface."""
     app = QApplication(sys.argv)
-    view = Viewer(stats, mode, difficulties, theme)
+    Viewer(stats, mode, difficulties, theme)
     sys.exit(app.exec_())
