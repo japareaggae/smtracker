@@ -17,6 +17,21 @@
 
 """Functions for parsing pieces of stats."""
 
+def get_profile_name(stats):
+    """Gets a profile name from the Stats tree."""
+    is_machine = stats.find("GeneralData").find("IsMachine").text
+    profile_name = "(unknown)"
+    if is_machine == "1":
+        profile_name = "(machine profile)"
+    else:
+        profile_name = stats.find("GeneralData").find("DisplayName").text
+    return profile_name
+
+
+def get_last_played(stats):
+    """Gets the LastPlayedDate from the Stats tree."""
+    return stats.find("GeneralData").find("LastPlayedDate").text
+
 
 def highscore_stat(step, stat):
     """Returns a stat from the first HighScore of a Steps ElementTree.

@@ -41,12 +41,8 @@ class Viewer(QMainWindow):
         self.stats = stats
 
         # Get basic information from the stats
-        self.ismachine = self.stats.find("GeneralData").find("IsMachine").text
-        self.lastplayed = self.stats.find("GeneralData").find("LastPlayedDate").text
-        if self.ismachine == "1":
-            self.displayname = "(machine profile)"
-        else:
-            self.displayname = self.stats.find("GeneralData").find("DisplayName").text
+        self.displayname = parse.get_profile_name(stats)
+        self.lastplayed = parse.get_last_played(stats)
 
         # Define initial gamemode on combobox
         self.mode = mode

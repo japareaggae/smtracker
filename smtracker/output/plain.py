@@ -23,19 +23,9 @@ import smtracker.utils.parse as parse
 
 def report(Stats, mode, difficulties):
     """Prints the plain text report."""
-    IsMachine = Stats.find("GeneralData").find("IsMachine").text
-    LastPlayedDate = Stats.find("GeneralData").find("LastPlayedDate").text
-
-    if IsMachine == "1":
-        DisplayName = "(machine profile)"
-    else:
-        DisplayName = Stats.find("GeneralData").find("DisplayName").text
-
-    try:
-        print("Profile name is " + DisplayName)
-    except TypeError:
-        print("Profile name is unknown")
-
+    DisplayName = parse.get_profile_name(Stats)
+    LastPlayedDate = parse.get_last_played(Stats)
+    print("Profile name is " + DisplayName)
     print("Last played date was " + LastPlayedDate)
 
     for Song in Stats.find("SongScores"):
