@@ -2,30 +2,33 @@
 <html>
 <head>
 	<title>StepMania scores for {{ name }}</title>
+	<style>
+	{% include 'stylesheet.css' %}
+	</style>
 </head>
 <body>
 	<p>Last updated on {{ last_played }}</p>
 	<table>
 		<thead>
 		<tr>
-			<td></td>
-			<td></td>
+			<th></th>
+			<th></th>
 			{% for diff in difficulties %}
-			<td colspan=8>{{ diff }}</td>
+			<th colspan=8>{{ diff }}</th>
 			{% endfor %}
 		</tr>
 		<tr>
-			<td>Group</td>
-			<td>Title</td>
+			<th>Group</th>
+			<th>Title</th>
 			{% for diff in difficulties %}
-			<td>Grade</td>
-			<td>Percent</td>
-			<td>Marvelous</td>
-			<td>Perfect</td>
-			<td>Great</td>
-			<td>Good</td>
-			<td>Boo</td>
-			<td>Miss</td>
+			<th>Grade</th>
+			<th>Percent</th>
+			<th>Marvelous</th>
+			<th>Perfect</th>
+			<th>Great</th>
+			<th>Good</th>
+			<th>Boo</th>
+			<th>Miss</th>
 			{% endfor %}
 		</tr>
 		</thead>
@@ -33,10 +36,10 @@
 		{% for song in songs %}
 		<tr>
 			<td>{{ song.group }}</td>
-			<td>{{ song.title }}</td>
+			<td class="title">{{ song.title }}</td>
 			{% for score in song.scores %}
-			<td class="{{ score.diff }}">{{ score.grade }}</td>
-			<td class="{{ score.diff }}">{{ score.perc }}</td>
+			<td class="{{ score.diff }} grade">{{ score.grade }}</td>
+			<td class="{{ score.diff }} percent">{{ score.perc }}</td>
 			<td class="{{ score.diff }}">{{ score.W1 }}</td>
 			<td class="{{ score.diff }}">{{ score.W2 }}</td>
 			<td class="{{ score.diff }}">{{ score.W3 }}</td>

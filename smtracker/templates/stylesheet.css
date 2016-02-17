@@ -1,0 +1,36 @@
+body {
+	font-family: sans-serif;
+}
+
+table {
+	font-size: 8pt;
+	border-collapse: collapse;
+}
+
+td {
+	text-align: center;
+	border-width: 1px 0px;
+	border-style: solid;
+	border-color: black;
+}
+
+td.Beginner{
+	background-color: #81E9FF;
+}
+td.Easy{
+	background-color: #FFFFAA;
+}
+td.Medium{
+	background-color: #FFAAAA;
+}
+td.Hard{
+	background-color: #00FF7F;
+}
+td.Challenge{
+	background-color: #AAAAFF;
+}
+
+td.title, td.grade, td.percent {
+	font-size: 10pt;
+	font-weight: bold;
+}
