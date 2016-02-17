@@ -21,13 +21,14 @@ import sys
 
 from PyQt5.QtWidgets import (QMainWindow, QWidget, QLabel, QComboBox,
                              QTableWidget, QTableWidgetItem, QHBoxLayout,
-                             QVBoxLayout, QAction, QMessageBox, qApp,
-                             QApplication)
+                             QVBoxLayout, QAction, QMessageBox, QFileDialog,
+                             qApp, QApplication)
 from PyQt5.QtCore import Qt
 
 import smtracker
 import smtracker.utils.format as smformat
 import smtracker.utils.parse as parse
+import smtracker.output.html as html
 
 
 class Viewer(QMainWindow):
@@ -174,6 +175,20 @@ Miss: {}""".format(timings['W1'], timings['W2'], timings['W3'], timings['W4'],
         QMessageBox.about(self, "About smtracker", smtracker.__description__ +
                           " (version " + smtracker.__version__ + ")")
 
+    def export_html(self):
+        """Saves an HTML report using QFileDialog to set a location."""
+        filetuple = QFileDialog.getSaveFileName(self, "Save HTML report as",
+                                               None, "HTML file (*.html)")
+
+        if filetuple[0]:
+            if filetuple[0].endswith(".html"):
+                filename = filetuple[0]
+            else:
+                filename = filetuple[0] + ".html"
+
+            html.save(self.stats, self.mode, self.difficulties, self.theme,
+                      filename)
+
 
     def init_menubar(self):
         """Generates the main window menu bar."""
@@ -182,10 +197,10 @@ Miss: {}""".format(timings['W1'], timings['W2'], timings['W3'], timings['W4'],
         exitAction.setStatusTip('Exit smtracker')
         exitAction.triggered.connect(qApp.exit)
 
-        exportAction = QAction('&Export', self)
+        exportAction = QAction('&Export...', self)
         exportAction.setShortcut('Ctrl+E')
         exportAction.setStatusTip('Export table as HTML file')
-        #exitAction.triggered.connect(lambda: html.output)
+        exportAction.triggered.connect(self.export_html)
 
         aboutAction = QAction('&About smtracker...', self)
         aboutAction.triggered.connect(self.about_box)
