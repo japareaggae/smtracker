@@ -43,6 +43,7 @@ setup(
         'Programming Language :: Python :: 3'
         ],
     packages=find_packages(),
+    package_data={'smtracker': ['templates/*.html', 'templates/*.css']},
     entry_points={
         'gui_scripts':
             ['smtracker = smtracker.smtracker:main']
