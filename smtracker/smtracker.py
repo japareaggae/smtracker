@@ -99,4 +99,4 @@ def main():
     elif output_type == "qt":
         qt.run(stats, gamemode, DIFFICULTIES, theme)
     elif output_type == "html":
-        html.main(stats, gamemode, DIFFICULTIES, theme)
+        html.save(stats, gamemode, DIFFICULTIES, theme)
