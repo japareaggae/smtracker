@@ -49,7 +49,6 @@ def find_stats():
     return statsxml
 
 
-# We can ask the program to read a specific file using argparse.
 def get_argparser():
     """Creates an argparse parser."""
     parser = argparse.ArgumentParser(description='A StepMania Score Tracker')
@@ -71,6 +70,9 @@ def get_argparser():
                         "(valid options are 'sm5' and 'itg', defaults to 'sm5')")
     parser.add_argument('-i', dest='ignore', nargs='+',
                         help="ignore the specified difficulty")
+    parser.add_argument('-d', dest='dest', nargs='?', default='/tmp/sm.html',
+                        help="where should the output file be saved (only for "
+                        "html and plain outputs)")
     return parser
 
 def main():
@@ -81,6 +83,7 @@ def main():
     gamemode = args.mode
     output_type = args.output
     theme = args.theme
+    dest = args.dest
 
     # Parse the statsxml file and return a tree for the outputs
     stats = etree.parse(statsxml).getroot()
@@ -99,4 +102,4 @@ def main():
     elif output_type == "qt":
         qt.run(stats, gamemode, DIFFICULTIES, theme)
     elif output_type == "html":
-        html.save(stats, gamemode, DIFFICULTIES, theme)
+        html.save(stats, gamemode, DIFFICULTIES, theme, dest)
