@@ -30,8 +30,8 @@ def main(stats, mode, difficulties, theme):
 
     songs = []
     song_tuple = namedtuple('Song', ['group', 'title', 'scores'])
-    score_tuple = namedtuple('Score', ['grade', 'perc', 'W1', 'W2', 'W3', 'W4',
-                                       'W5', 'Miss'])
+    score_tuple = namedtuple('Score', ['diff', 'grade', 'perc', 'W1', 'W2',
+                                       'W3', 'W4', 'W5', 'Miss'])
 
     for song in stats.find("SongScores"):
         location = song.attrib['Dir'].split('/')
@@ -47,11 +47,12 @@ def main(stats, mode, difficulties, theme):
                     try:
                         tier = parse.highscore_stat(song[step_counter], "Grade")
                         grade = smformat.tier_to_grade_sm5(tier)
-                        percent = parse.highscore_stat(song[step_counter],
-                                                       "PercentDP")
+                        percent = "{:.2f}%".format(float(parse.highscore_stat(
+                            song[step_counter], "PercentDP")) * 100)
                         timings = parse.highscore_timings(song[step_counter])
 
                         scores.append(score_tuple(
+                            diff = diff,
                             grade = grade,
                             perc = percent,
                             W1 = timings['W1'],
@@ -62,12 +63,12 @@ def main(stats, mode, difficulties, theme):
                             Miss = timings['Miss']))
 
                     except AttributeError:
-                        scores.append("")
+                        scores.append({'diff': diff})
                     step_counter = step_counter + 1
                 else:
-                    scores.append("")
+                    scores.append({'diff': diff})
             except IndexError:
-                scores.append("")
+                scores.append({'diff': diff})
 
         songs.append(song_tuple(group, title, scores))
 
