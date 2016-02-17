@@ -23,7 +23,16 @@ import smtracker.utils.format as smformat
 import smtracker.utils.parse as parse
 
 
-def main(stats, mode, difficulties, theme):
+def generate(stats, mode, difficulties, theme):
+    """Generates an HTML file with all the scores from the Stats file.
+
+    Arguments:
+    stats        -- an pre-rooted ElementTree of the Stats.xml file
+                    (as in 'stats = etree.parse(statsxml).getroot()
+    mode         -- the game mode to output scores from
+    difficulties -- the difficulties which should be printed
+    theme        -- which metrics should be used for printing grades
+    """
     # Get profile name from tree
     profile_name = parse.get_profile_name(stats)
     last_played = parse.get_last_played(stats)
@@ -74,9 +83,22 @@ def main(stats, mode, difficulties, theme):
 
     env = Environment(loader=PackageLoader('smtracker', 'templates'))
     template = env.get_template('template.html')
-    print(template.render(
-          name = profile_name,
-          last_played = last_played,
-          difficulties = difficulties,
-          songs = songs))
+    return(template.render(name = profile_name,
+                           last_played = last_played,
+                           difficulties = difficulties,
+                           songs = songs))
+
+def save(stats, mode, difficulties, theme, dest='/tmp/sm.html'):
+    """Saves an HTML file generated with the generate function.
+
+    Arguments:
+    stats        -- an pre-rooted ElementTree of the Stats.xml file
+                    (as in 'stats = etree.parse(statsxml).getroot()
+    mode         -- the game mode to output scores from
+    difficulties -- the difficulties which should be printed
+    theme        -- which metrics should be used for printing grades
+    dest         -- where should the file be saved
+    """
+    with open(dest, 'w') as f:
+        f.write(generate(stats, mode, difficulties, theme))
 
