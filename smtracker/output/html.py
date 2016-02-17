@@ -15,6 +15,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+"""Functions for generating and saving HTML reports using Jinja."""
+
 from collections import namedtuple
 
 from jinja2 import Environment, PackageLoader
@@ -61,15 +63,15 @@ def generate(stats, mode, difficulties, theme):
                         timings = parse.highscore_timings(song[step_counter])
 
                         scores.append(score_tuple(
-                            diff = diff,
-                            grade = grade,
-                            perc = percent,
-                            W1 = timings['W1'],
-                            W2 = timings['W2'],
-                            W3 = timings['W3'],
-                            W4 = timings['W4'],
-                            W5 = timings['W5'],
-                            Miss = timings['Miss']))
+                            diff=diff,
+                            grade=grade,
+                            perc=percent,
+                            W1=timings['W1'],
+                            W2=timings['W2'],
+                            W3=timings['W3'],
+                            W4=timings['W4'],
+                            W5=timings['W5'],
+                            Miss=timings['Miss']))
 
                     except AttributeError:
                         scores.append({'diff': diff})
@@ -83,10 +85,10 @@ def generate(stats, mode, difficulties, theme):
 
     env = Environment(loader=PackageLoader('smtracker', 'templates'))
     template = env.get_template('template.html')
-    return(template.render(name = profile_name,
-                           last_played = last_played,
-                           difficulties = difficulties,
-                           songs = songs))
+    return(template.render(name=profile_name,
+                           last_played=last_played,
+                           difficulties=difficulties,
+                           songs=songs))
 
 def save(stats, mode, difficulties, theme, dest='/tmp/sm.html'):
     """Saves an HTML file generated with the generate function.
@@ -99,6 +101,6 @@ def save(stats, mode, difficulties, theme, dest='/tmp/sm.html'):
     theme        -- which metrics should be used for printing grades
     dest         -- where should the file be saved
     """
-    with open(dest, 'w') as f:
-        f.write(generate(stats, mode, difficulties, theme))
+    with open(dest, 'w') as filename:
+        filename.write(generate(stats, mode, difficulties, theme))
 

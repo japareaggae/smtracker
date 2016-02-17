@@ -56,7 +56,7 @@ class Viewer(QMainWindow):
         self.table = QTableWidget(song_count, len(self.difficulties) + 2)
 
         self.theme = theme
-        self.initUI()
+        self.init_ui()
 
 
     def lock_cell(self, cell):
@@ -76,10 +76,6 @@ class Viewer(QMainWindow):
         else:
             print("Error: " + self.theme + " is not a valid theme option")
             exit(1)
-
-        # Create our table
-        song_count = len(self.stats.find("SongScores"))
-        table = QTableWidget(song_count, 7)
 
         self.table.clearContents()
         self.table.setSortingEnabled(False)
@@ -178,7 +174,7 @@ Miss: {}""".format(timings['W1'], timings['W2'], timings['W3'], timings['W4'],
     def export_html(self):
         """Saves an HTML report using QFileDialog to set a location."""
         filetuple = QFileDialog.getSaveFileName(self, "Save HTML report as",
-                                               None, "HTML file (*.html)")
+                                                None, "HTML file (*.html)")
 
         if filetuple[0]:
             if filetuple[0].endswith(".html"):
@@ -192,31 +188,31 @@ Miss: {}""".format(timings['W1'], timings['W2'], timings['W3'], timings['W4'],
 
     def init_menubar(self):
         """Generates the main window menu bar."""
-        exitAction = QAction('E&xit', self)
-        exitAction.setShortcut('Ctrl+Q')
-        exitAction.setStatusTip('Exit smtracker')
-        exitAction.triggered.connect(qApp.exit)
+        exit_action = QAction('E&xit', self)
+        exit_action.setShortcut('Ctrl+Q')
+        exit_action.setStatusTip('Exit smtracker')
+        exit_action.triggered.connect(qApp.exit)
 
-        exportAction = QAction('&Export...', self)
-        exportAction.setShortcut('Ctrl+E')
-        exportAction.setStatusTip('Export table as HTML file')
-        exportAction.triggered.connect(self.export_html)
+        export_action = QAction('&Export...', self)
+        export_action.setShortcut('Ctrl+E')
+        export_action.setStatusTip('Export table as HTML file')
+        export_action.triggered.connect(self.export_html)
 
-        aboutAction = QAction('&About smtracker...', self)
-        aboutAction.triggered.connect(self.about_box)
+        about_action = QAction('&About smtracker...', self)
+        about_action.triggered.connect(self.about_box)
 
-        qtAction = QAction('About &Qt...', self)
-        qtAction.triggered.connect(QApplication.aboutQt)
+        qt_action = QAction('About &Qt...', self)
+        qt_action.triggered.connect(QApplication.aboutQt)
 
         menubar = self.menuBar()
-        fileMenu = menubar.addMenu('&File')
-        fileMenu.addAction(exportAction)
-        fileMenu.addAction(exitAction)
-        aboutMenu = menubar.addMenu('&About')
-        aboutMenu.addAction(aboutAction)
-        aboutMenu.addAction(qtAction)
+        file_menu = menubar.addMenu('&File')
+        file_menu.addAction(export_action)
+        file_menu.addAction(exit_action)
+        about_menu = menubar.addMenu('&About')
+        about_menu.addAction(about_action)
+        about_menu.addAction(qt_action)
 
-    def initUI(self):
+    def init_ui(self):
         """Initializes the user interface."""
         MODES = ("dance-single", "dance-double", "pump-single", "pump-double",
                  "pump-halfdouble")
