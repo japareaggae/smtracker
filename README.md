@@ -12,10 +12,16 @@ StepMania 5](http://i.imgur.com/jANOutM.png)
 Requirements
 -----
 
-You will need Python 3 and PyQt5. If you're on Windows, you will need
-[Python 3.4][py3] in order to install [PyQt5][pyqt5]. If you're using
-GNU/Linux, just install both Python 3 and PyQt5 from your distro's
-package repository.
+* Python 3
+* PyQt5
+* Jinja2
+
+Windows Tips
+-----
+
+You can install PyQt5 for Windows from [Riverbank's website][pyqt5].
+It was built against Python 3.4, so make sure to download the correct
+version on the [Python website][py3].
 
 Known Issues
 -----
