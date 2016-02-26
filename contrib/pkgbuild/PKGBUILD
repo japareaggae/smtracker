@@ -1,17 +1,17 @@
 # Maintainer: Renan Guilherme <japareaggae@gmail.com>
 pkgname=smtracker
-pkgver=1.0.0
+pkgver=1.2.2
 pkgrel=1
 pkgdesc="A StepMania score tracker"
 arch=('any')
 url="https://github.com/japareaggae/smtracker-python"
 license=('GPL3')
-depends=('python' 'python-pyqt5')
+depends=('python' 'python-pyqt5' 'python-jinja')
 optdepends=('stepmania')
 options=(!emptydirs)
 source=("https://github.com/japareaggae/${pkgname}/archive/v${pkgver}.tar.gz")
-md5sums=('2a6c71fd87b4a5bcf5af96b0a0741d82')
-sha256sums=('63aed659331a045cada3ffb696abc3b92c9c360e46b83bb83cd094b0e9035f82')
+md5sums=('33b9bee3e770d134875a87a6cd400f0f')
+sha256sums=('5a2c4bfc4468e3ce1441735a60264a8e2e6eba9e5668afc5bb0bb2bfec32e5ee')
 
 package() {
   cd "$srcdir/$pkgname-$pkgver"
