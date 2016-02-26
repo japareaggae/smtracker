@@ -1,0 +1,6 @@
+[Desktop Entry]
+Name=smtracker
+Comment=StepMania score tracker
+Type=Application
+Exec=smtracker %u
+Terminal=false
