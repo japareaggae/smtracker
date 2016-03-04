@@ -42,10 +42,6 @@ class Viewer(QMainWindow):
         # Define our XML tree
         self.stats = stats
 
-        # Get basic information from the stats
-        self.displayname = parse.get_profile_name(stats)
-        self.lastplayed = parse.get_last_played(stats)
-
         # Define initial gamemode on combobox
         self.mode = mode
 
@@ -196,11 +192,17 @@ Miss: {}""".format(timings['W1'], timings['W2'], timings['W3'], timings['W4'],
             self.stats = etree.parse(filetuple[0]).getroot()
             self.table.setRowCount(len(self.stats.find("SongScores")))
             self.init_table()
-            self.displayname = parse.get_profile_name(self.stats)
-            self.lastplayed = parse.get_last_played(self.stats)
-            status = 'Profile: {} // Last played: {}'.format(self.displayname,
-                                                             self.lastplayed)
-            self.setStatusTip(status)
+            self.set_statusbar()
+
+
+    def set_statusbar(self):
+        """Resets the application statusbar."""
+        displayname = parse.get_profile_name(self.stats)
+        lastplayed = parse.get_last_played(self.stats)
+        status = 'Profile: {} // Last played: {}'.format(displayname,
+                                                         lastplayed)
+        self.setStatusTip(status)
+
 
     def init_menubar(self):
         """Generates the main window menu bar."""
@@ -260,9 +262,8 @@ Miss: {}""".format(timings['W1'], timings['W2'], timings['W3'], timings['W4'],
         container.setLayout(vbox)
         self.setCentralWidget(container)
 
-        status = 'Profile: {} // Last played: {}'.format(self.displayname,
-                                                         self.lastplayed)
-        self.statusBar().showMessage(status)
+        self.statusBar()
+        self.set_statusbar()
         self.setWindowTitle('smtracker - StepMania Score Tracker')
         self.resize(1200, 700)
         self.show()
