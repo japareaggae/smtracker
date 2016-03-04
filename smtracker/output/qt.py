@@ -186,7 +186,9 @@ Miss: {}""".format(timings['W1'], timings['W2'], timings['W3'], timings['W4'],
             html.save(self.stats, self.mode, self.difficulties, self.theme,
                       filename)
 
+
     def open_file(self):
+        """Sets a new Stats.xml file and regenerates the table."""
         filetuple = QFileDialog.getOpenFileName(self, "Select Stats.xml file "
                                                 "to open", None, "StepMania stats "
                                                 "files (*.xml)")
