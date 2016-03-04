@@ -238,12 +238,12 @@ Miss: {}""".format(timings['W1'], timings['W2'], timings['W3'], timings['W4'],
 
     def init_ui(self):
         """Initializes the user interface."""
-        MODES = ("dance-single", "dance-double", "pump-single", "pump-double",
+        modes = ("dance-single", "dance-double", "pump-single", "pump-double",
                  "pump-halfdouble")
 
         # Combobox for game modes
         combobox = QComboBox()
-        combobox.addItems(MODES)
+        combobox.addItems(modes)
         combobox.setCurrentText(self.mode)
         combolabel = QLabel("Game mode:")
         combobox.activated.connect(lambda: self.combobox_activated(combobox))
