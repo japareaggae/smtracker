@@ -163,10 +163,17 @@ Miss: {}""".format(timings['W1'], timings['W2'], timings['W3'], timings['W4'],
         self.init_table()
 
 
+    def themebox_activated(self, combobox):
+        """Sets the current grading system and regenerates the table."""
+        self.theme = combobox.currentText()
+        self.init_table()
+
+
     def about_box(self):
         """Shows an about box with information about smtracker."""
         QMessageBox.about(self, "About smtracker", smtracker.__description__ +
                           " (version " + smtracker.__version__ + ")")
+
 
     def export_html(self):
         """Saves an HTML report using QFileDialog to set a location."""
@@ -240,6 +247,7 @@ Miss: {}""".format(timings['W1'], timings['W2'], timings['W3'], timings['W4'],
         """Initializes the user interface."""
         modes = ("dance-single", "dance-double", "pump-single", "pump-double",
                  "pump-halfdouble")
+        themes = ("sm5", "itg")
 
         # Combobox for game modes
         combobox = QComboBox()
@@ -248,12 +256,20 @@ Miss: {}""".format(timings['W1'], timings['W2'], timings['W3'], timings['W4'],
         combolabel = QLabel("Game mode:")
         combobox.activated.connect(lambda: self.combobox_activated(combobox))
 
+        themebox = QComboBox()
+        themebox.addItems(themes)
+        themebox.setCurrentText(self.theme)
+        themelabel = QLabel("Grading system:")
+        themebox.activated.connect(lambda: self.themebox_activated(themebox))
+
         self.init_menubar()
         self.init_table()
 
         hbox = QHBoxLayout()
         hbox.addWidget(combolabel)
         hbox.addWidget(combobox, 1)
+        hbox.addWidget(themelabel)
+        hbox.addWidget(themebox, 1)
         vbox = QVBoxLayout()
         vbox.addLayout(hbox)
         vbox.addWidget(self.table)
