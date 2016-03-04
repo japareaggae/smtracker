@@ -196,10 +196,16 @@ Miss: {}""".format(timings['W1'], timings['W2'], timings['W3'], timings['W4'],
                                                 "to open", None, "StepMania stats "
                                                 "files (*.xml)")
         if filetuple[0]:
-            self.stats = etree.parse(filetuple[0]).getroot()
-            self.table.setRowCount(len(self.stats.find("SongScores")))
-            self.init_table()
-            self.set_statusbar()
+            tempstats = etree.parse(filetuple[0]).getroot()
+            if tempstats.find("SongScores") == None:
+                QMessageBox.critical(self, "Error parsing file", "The selected "
+                                     "file is not a valid StepMania Stats.xml "
+                                     "file.")
+            else:
+                self.stats = tempstats
+                self.table.setRowCount(len(self.stats.find("SongScores")))
+                self.init_table()
+                self.set_statusbar()
 
 
     def set_statusbar(self):
