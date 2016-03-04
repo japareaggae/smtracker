@@ -21,28 +21,31 @@ import smtracker.utils.format as smformat
 import smtracker.utils.parse as parse
 
 
-def report(Stats, mode, difficulties):
+def report(stats, mode, difficulties):
     """Prints the plain text report."""
-    DisplayName = parse.get_profile_name(Stats)
-    LastPlayedDate = parse.get_last_played(Stats)
-    print("Profile name is " + DisplayName)
-    print("Last played date was " + LastPlayedDate)
+    displayname = parse.get_profile_name(stats)
+    lastplayed = parse.get_last_played(stats)
+    print("Profile name is " + displayname)
+    print("Last played date was " + lastplayed)
 
-    for Song in Stats.find("SongScores"):
-        Location = Song.attrib['Dir'].split('/')
-        Title = Location[2]
-        Group = Location[1]
-        print(Group + " - " + Title)
+    for song in stats.find("SongScores"):
+        location = song.attrib['Dir'].split('/')
+        title = location[2]
+        group = location[1]
+        print(group + " - " + title)
 
         step_counter = 0
         for diff in difficulties:
             # IndexError is raised after we reach the final <Step> on the song
             # using step_counter
             try:
-                if Song[step_counter].attrib['Difficulty'] == diff and Song[step_counter].attrib['StepsType'] == mode:
+                if (song[step_counter].attrib['Difficulty'] == diff and
+                        song[step_counter].attrib['StepsType'] == mode):
                     try:
-                        grade = smformat.tier_to_grade_sm5(parse.highscore_stat(Song[step_counter], "Grade"))
-                        percent = float(parse.highscore_stat(Song[step_counter], "PercentDP")) * 100
+                        grade = smformat.tier_to_grade_sm5(parse.highscore_stat \
+                                (song[step_counter], "Grade"))
+                        percent = float(parse.highscore_stat(song[step_counter],
+                                                             "PercentDP")) * 100
                         print('+++ {:10}: {:3} ({:.2f})'.format(diff, grade, percent))
                     except AttributeError:
                         print("--- " + diff)
