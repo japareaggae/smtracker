@@ -18,6 +18,7 @@
 """A Qt-based interface for viewing your scores."""
 
 import sys
+import xml.etree.ElementTree as etree
 
 from PyQt5.QtWidgets import (QMainWindow, QWidget, QLabel, QComboBox,
                              QTableWidget, QTableWidgetItem, QHBoxLayout,
@@ -185,6 +186,19 @@ Miss: {}""".format(timings['W1'], timings['W2'], timings['W3'], timings['W4'],
             html.save(self.stats, self.mode, self.difficulties, self.theme,
                       filename)
 
+    def open_file(self):
+        filetuple = QFileDialog.getOpenFileName(self, "Select Stats.xml file "
+                                                "to open", None, "StepMania stats "
+                                                "files (*.xml)")
+        if filetuple[0]:
+            self.stats = etree.parse(filetuple[0]).getroot()
+            self.table.setRowCount(len(self.stats.find("SongScores")))
+            self.init_table()
+            self.displayname = parse.get_profile_name(self.stats)
+            self.lastplayed = parse.get_last_played(self.stats)
+            status = 'Profile: {} // Last played: {}'.format(self.displayname,
+                                                             self.lastplayed)
+            self.setStatusTip(status)
 
     def init_menubar(self):
         """Generates the main window menu bar."""
@@ -198,6 +212,11 @@ Miss: {}""".format(timings['W1'], timings['W2'], timings['W3'], timings['W4'],
         export_action.setStatusTip('Export table as HTML file')
         export_action.triggered.connect(self.export_html)
 
+        open_action = QAction('&Open...', self)
+        open_action.setShortcut('Ctrl+O')
+        open_action.setStatusTip('Open a Stats.xml file')
+        open_action.triggered.connect(self.open_file)
+
         about_action = QAction('&About smtracker...', self)
         about_action.triggered.connect(self.about_box)
 
@@ -206,6 +225,7 @@ Miss: {}""".format(timings['W1'], timings['W2'], timings['W3'], timings['W4'],
 
         menubar = self.menuBar()
         file_menu = menubar.addMenu('&File')
+        file_menu.addAction(open_action)
         file_menu.addAction(export_action)
         file_menu.addAction(exit_action)
         about_menu = menubar.addMenu('&About')
@@ -241,7 +261,6 @@ Miss: {}""".format(timings['W1'], timings['W2'], timings['W3'], timings['W4'],
         status = 'Profile: {} // Last played: {}'.format(self.displayname,
                                                          self.lastplayed)
         self.statusBar().showMessage(status)
-        container.setStatusTip(status)
         self.setWindowTitle('smtracker - StepMania Score Tracker')
         self.resize(1200, 700)
         self.show()
