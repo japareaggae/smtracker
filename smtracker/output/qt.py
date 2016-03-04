@@ -171,8 +171,9 @@ Miss: {}""".format(timings['W1'], timings['W2'], timings['W3'], timings['W4'],
 
     def about_box(self):
         """Shows an about box with information about smtracker."""
-        QMessageBox.about(self, "About smtracker", smtracker.__description__ +
-                          " (version " + smtracker.__version__ + ")")
+        QMessageBox.information(self, "About smtracker",
+                                smtracker.__description__ +
+                                " (version " + smtracker.__version__ + ")")
 
 
     def export_html(self):
