@@ -23,7 +23,7 @@ import xml.etree.ElementTree as etree
 from PyQt5.QtWidgets import (QMainWindow, QWidget, QLabel, QComboBox,
                              QTableWidget, QTableWidgetItem, QHBoxLayout,
                              QVBoxLayout, QAction, QMessageBox, QFileDialog,
-                             qApp, QApplication)
+                             QAbstractItemView, qApp, QApplication)
 from PyQt5.QtCore import Qt
 
 import smtracker
@@ -54,11 +54,6 @@ class Viewer(QMainWindow):
 
         self.theme = theme
         self.init_ui()
-
-
-    def lock_cell(self, cell):
-        """Disables editing a QTableWidgetItem."""
-        cell.setFlags(Qt.ItemIsSelectable and Qt.ItemIsEnabled)
 
 
     def init_table(self):
@@ -98,13 +93,11 @@ class Viewer(QMainWindow):
             # Create group cell
             group = QTableWidgetItem(location[1])
             self.table.setItem(current_row, current_column, group)
-            self.lock_cell(group)
             current_column = current_column + 1
 
             # Create title cell
             title = QTableWidgetItem(location[2])
             self.table.setItem(current_row, current_column, title)
-            self.lock_cell(title)
             current_column = current_column + 1
 
             # step_counter will be used for traversing the scores in a song
@@ -131,31 +124,29 @@ Boo: {}
 Miss: {}""".format(timings['W1'], timings['W2'], timings['W3'], timings['W4'],
                    timings['W5'], timings['Miss'])
                             cell.setToolTip(tooltip)
-                            self.lock_cell(cell)
                             self.table.setItem(current_row, current_column, cell)
                         # This exception is reached if a Song was played, but
                         # has no score (AutoPlay, PlayerAutoPlay)
                         except AttributeError:
                             cell = QTableWidgetItem()
-                            self.lock_cell(cell)
                             self.table.setItem(current_row, current_column, cell)
                         step_counter = step_counter + 1
                     # If there are no scores for the current difficulty,
                     # add an empty cell instead
                     else:
                         cell = QTableWidgetItem()
-                        self.lock_cell(cell)
                         self.table.setItem(current_row, current_column, cell)
                 # This exception is reached if we already reached the last
                 # score on a song (using step_counter)
                 except IndexError:
                     cell = QTableWidgetItem()
-                    self.lock_cell(cell)
                     self.table.setItem(current_row, current_column, cell)
                 current_column = current_column + 1
             current_row = current_row + 1
 
         # Final table adjustments
+        self.table.setEditTriggers(QAbstractItemView.NoEditTriggers)
+        self.table.setSelectionMode(QAbstractItemView.NoSelection)
         self.table.resizeColumnsToContents()
         self.table.setSortingEnabled(True)
         self.table.sortByColumn(0, Qt.AscendingOrder)
