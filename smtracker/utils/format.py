@@ -28,12 +28,10 @@ def tier_to_grade_sm5(tier):
               'Tier03': 'AA',
               'Tier02': 'AAA',
               'Tier01': 'AAAA'}
-    # If we don't have the specified tier in this list, it's probably from
-    # an ITG-based theme and should be handled accordingly
     try:
         return grades[tier]
     except KeyError:
-        return tier_to_grade_itg(tier)
+        return "?"
 
 
 def tier_to_grade_itg(tier):
@@ -56,8 +54,6 @@ def tier_to_grade_itg(tier):
               'Tier03': '★★',
               'Tier02': '★★★',
               'Tier01': '★★★★'}
-    # If we don't have the specified tier in this list, then we have a
-    # mysterious theme in our hands
     try:
         return grades[tier]
     except KeyError:
