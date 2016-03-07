@@ -74,6 +74,7 @@ class Viewer(QMainWindow):
             print("Error: " + self.theme + " is not a valid theme option")
             exit(1)
 
+        # Prepare table for inserting items
         self.table.clearContents()
         self.table.setSortingEnabled(False)
 
@@ -84,11 +85,14 @@ class Viewer(QMainWindow):
             headeritem.setText(head)
             self.table.setHorizontalHeaderItem(where, headeritem)
 
+        # Current table row
         current_row = 0
         for song in self.stats.find("SongScores"):
+            # Current table row
             current_column = 0
 
             # Get the song's group and title
+            # location[0] should always be "Songs"
             location = song.attrib['Dir'].split('/')
 
             # Create group cell
