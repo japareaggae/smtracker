@@ -2,7 +2,10 @@ smtracker - StepMania Score Tracker
 =====
 
 smtracker is a simple [StepMania][sm] score tracker written in Python.
-It works by parsing your Stats.xml file.
+It works by parsing a Stats.xml file (either from your local profile,
+the machine profile or from a user specified file) and displaying
+(either in a Qt interface or in a HTML report) a table with your best
+results in each song.
 
 Screenshot (Qt interface)
 -----
@@ -16,16 +19,17 @@ Screenshot (HTML report)
 Requirements
 -----
 
-* Python 3
+* Python 3 (tested on 3.5 and 3.4)
 * PyQt5
 * Jinja2
 
-Windows Tips
+Installing on Windows
 -----
 
-You can install PyQt5 for Windows from [Riverbank's website][pyqt5].
-It was built against Python 3.4, so make sure to download the correct
-version on the [Python website][py3].
+On Windows, you will need to install PyQt5 manually in order to use
+smtracker. You can install PyQt5 for Windows from [Riverbank's website][pyqt5].
+It was built against Python 3.4, so make sure to download that version
+of Python and not 3.5. You can download Python 3.4 from [Python's website][pywin].
 
 Known Issues
 -----
@@ -51,5 +55,5 @@ You should have received a copy of the GNU General Public License
 along with smtracker.  If not, see <http://www.gnu.org/licenses/>.
 
 [sm]: http://www.stepmania.com/
-[py3]: https://www.python.org/downloads/windows/
+[pywin]: https://www.python.org/downloads/windows/
 [pyqt5]: https://riverbankcomputing.com/software/pyqt/download5
