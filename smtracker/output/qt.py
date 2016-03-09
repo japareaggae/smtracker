@@ -166,9 +166,16 @@ Miss: {}""".format(timings['W1'], timings['W2'], timings['W3'], timings['W4'],
 
     def about_box(self):
         """Shows an about box with information about smtracker."""
-        QMessageBox.information(self, "About smtracker",
-                                smtracker.__description__ +
-                                " (version " + smtracker.__version__ + ")")
+
+        blurb = "<p>{} (version {})</p>".format(smtracker.__description__,
+                                                smtracker.__version__)
+        license = "<p>Released under the terms of the "+ \
+                  "<a href=\"http://www.gnu.org/licenses/gpl-3.0.html\">GNU " + \
+                  "General Public License, version 3 or later</a></p>"
+        url = "<a href=\"{}\">{}</a></p>".format(smtracker.__url__,
+                                                 smtracker.__url__)
+        text = blurb + url + license
+        QMessageBox.information(self, "About smtracker", text)
 
 
     def export_html(self):
