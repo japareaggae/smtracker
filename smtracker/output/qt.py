@@ -171,12 +171,12 @@ Miss: {}""".format(timings['W1'], timings['W2'], timings['W3'], timings['W4'],
 
         blurb = "<p>{} (version {})</p>".format(smtracker.__description__,
                                                 smtracker.__version__)
-        license = "<p>Released under the terms of the "+ \
-                  "<a href=\"http://www.gnu.org/licenses/gpl-3.0.html\">GNU " + \
-                  "General Public License, version 3 or later</a></p>"
+        gpl = "<p>Released under the terms of the " + \
+              "<a href=\"http://www.gnu.org/licenses/gpl-3.0.html\">GNU " + \
+              "General Public License, version 3 or later</a></p>"
         url = "<a href=\"{}\">{}</a></p>".format(smtracker.__url__,
                                                  smtracker.__url__)
-        text = blurb + url + license
+        text = blurb + url + gpl
         QMessageBox.information(self, "About smtracker", text)
 
 
@@ -202,7 +202,7 @@ Miss: {}""".format(timings['W1'], timings['W2'], timings['W3'], timings['W4'],
                                                 "files (*.xml)")
         if filetuple[0]:
             tempstats = etree.parse(filetuple[0]).getroot()
-            if tempstats.find("SongScores") == None:
+            if tempstats.find("SongScores") is None:
                 QMessageBox.critical(self, "Error parsing file", "The selected "
                                      "file is not a valid StepMania Stats.xml "
                                      "file.")
