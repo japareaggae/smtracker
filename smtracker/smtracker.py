@@ -103,7 +103,7 @@ def main():
 
 
     if output_type == "plain":
-        plain.report(stats, gamemode, DIFFICULTIES)
+        plain.report(stats, gamemode, DIFFICULTIES, theme)
     elif output_type == "qt":
         qt.run(stats, gamemode, DIFFICULTIES, theme)
     elif output_type == "html":

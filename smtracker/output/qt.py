@@ -62,8 +62,10 @@ class Viewer(QMainWindow):
         HEADER.extend(self.difficulties)
 
         if self.theme == 'sm5':
+            get_tier = parse.calculate_tier_sm5
             get_grade = smformat.tier_to_grade_sm5
         elif self.theme == 'itg':
+            get_tier = parse.calculate_tier_itg
             get_grade = smformat.tier_to_grade_itg
         else:
             print("Error: " + self.theme + " is not a valid theme option")
@@ -107,7 +109,7 @@ class Viewer(QMainWindow):
                     if song[step_counter].attrib['Difficulty'] == diff and \
                        song[step_counter].attrib['StepsType'] == self.mode:
                         try:
-                            grade = get_grade(parse.highscore_stat(song[step_counter], "Grade"))
+                            grade = get_grade(get_tier(song[step_counter]))
                             percent = float(parse.highscore_stat(song[step_counter], "PercentDP")) * 100
                             cell = QTableWidgetItem('{} ({:.2f}%)'.format(grade, percent))
 

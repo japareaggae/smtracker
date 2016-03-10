@@ -35,6 +35,17 @@ def generate(stats, mode, difficulties, theme):
     difficulties -- the difficulties which should be printed
     theme        -- which metrics should be used for printing grades
     """
+
+    if theme == "sm5":
+        get_tier = parse.calculate_tier_sm5
+        get_grade = smformat.tier_to_grade_sm5
+    elif theme == "itg":
+        get_tier = parse.calculate_tier_itg
+        get_grade = smformat.tier_to_grade_itg
+    else:
+        print("Error: " + self.theme + " is not a valid theme option")
+        exit(1)
+
     # Get profile name from tree
     profile_name = parse.get_profile_name(stats)
     last_played = parse.get_last_played(stats)
@@ -56,8 +67,7 @@ def generate(stats, mode, difficulties, theme):
                 if song[step_counter].attrib['Difficulty'] == diff and \
                    song[step_counter].attrib['StepsType'] == mode:
                     try:
-                        tier = parse.highscore_stat(song[step_counter], "Grade")
-                        grade = smformat.tier_to_grade_sm5(tier)
+                        grade = get_grade(get_tier(song[step_counter]))
                         percent = "{:.2f}%".format(float(parse.highscore_stat(
                             song[step_counter], "PercentDP")) * 100)
                         timings = parse.highscore_timings(song[step_counter])
