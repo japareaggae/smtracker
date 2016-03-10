@@ -46,7 +46,8 @@ def highscore_stat(step, stat):
 
 
 def highscore_timings(step):
-    """Returns a list with the timings of the first HighScore of a Steps ElementTree.
+    """Returns a dict with the timings of the first HighScore of a Steps
+    ElementTree.
 
     Arguments:
     step -- the Steps ElementTree to search
@@ -65,6 +66,9 @@ def highscore_timings(step):
 def highscore_holds(step):
     """Returns a dict with the HoldNoteScores of the first HighScore of a
     Steps ElementTree.
+
+    Arguments:
+    step -- the Steps ElementTree to search
     """
     notes = step.find("HighScoreList").find("HighScore").find("HoldNoteScores")
     timings = {'Held': int(notes.find("Held").text),
@@ -73,7 +77,12 @@ def highscore_holds(step):
 
 
 def calculate_tier_sm5(step):
-    """Calculates a tier for a given HighScore, using StepMania's default metrics."""
+    """Calculates a tier for the first HighScore in a Steps ElementTree, using
+    StepMania 5's default metrics.
+
+    Arguments:
+    step -- the Steps ElementTree to search
+    """
     # Here's an explanation of how StepMania calculates its grades:
     # https://zenius-i-vanisher.com/v5.2/viewthread.php?threadid=6582#p349466
 
@@ -129,6 +138,12 @@ def calculate_tier_sm5(step):
 
 
 def calculate_tier_itg(step):
+    """Calculates a tier for the first HighScore in a Steps ElementTree, using
+    ITG/Simply Love's default metrics.
+
+    Arguments:
+    step -- the Steps ElementTree to search
+    """
     # If the file says we failed, then we failed
     if highscore_stat(step, "Grade") == "Failed":
         return "Failed"
