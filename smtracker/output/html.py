@@ -43,7 +43,7 @@ def generate(stats, mode, difficulties, theme):
         get_tier = parse.calculate_tier_itg
         get_grade = smformat.tier_to_grade_itg
     else:
-        print("Error: " + self.theme + " is not a valid theme option")
+        print("Error: {} is not a valid theme option".format(theme))
         exit(1)
 
     # Get profile name from tree
