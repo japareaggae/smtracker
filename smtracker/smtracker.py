@@ -89,7 +89,7 @@ def main():
     stats = etree.parse(statsxml).getroot()
 
     # Check if this is a valid Stats.xml file before doing anything
-    if stats.find("SongScores") == None:
+    if stats.find("SongScores") is None:
         print("Error: The specified file is not a valid StepMania Stats.xml file")
         exit(1)
 
