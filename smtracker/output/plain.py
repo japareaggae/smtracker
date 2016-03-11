@@ -24,16 +24,6 @@ import smtracker.utils.parse as parse
 def report(stats, mode, difficulties, theme):
     """Prints the plain text report."""
 
-    if theme == "sm5":
-        get_tier = parse.calculate_tier_sm5
-        get_grade = smformat.tier_to_grade_sm5
-    elif theme == "itg":
-        get_tier = parse.calculate_tier_itg
-        get_grade = smformat.tier_to_grade_itg
-    else:
-        print("Error: {} is not a valid theme option".format(theme))
-        exit(1)
-
     displayname = parse.get_profile_name(stats)
     lastplayed = parse.get_last_played(stats)
     print("Profile name is " + displayname)
@@ -53,7 +43,7 @@ def report(stats, mode, difficulties, theme):
                 if (song[step_counter].attrib['Difficulty'] == diff and
                         song[step_counter].attrib['StepsType'] == mode):
                     try:
-                        grade = get_grade(get_tier(song[step_counter]))
+                        grade = smformat.highscore_grade(song[step_counter], theme)
                         percent = float(parse.highscore_stat(song[step_counter],
                                                              "PercentDP")) * 100
                         print('+++ {:10}: {:3} ({:.2f})'.format(diff, grade, percent))

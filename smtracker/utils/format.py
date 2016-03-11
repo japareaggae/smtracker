@@ -17,6 +17,8 @@
 
 """Formatting utilities used by outputs."""
 
+import smtracker.utils.parse as parse
+
 
 def tier_to_grade_sm5(tier):
     """Converts a tier to a grade according to SM5 default metrics."""
@@ -58,3 +60,16 @@ def tier_to_grade_itg(tier):
         return grades[tier]
     except KeyError:
         return "?"
+
+
+def highscore_grade(step, system):
+    """Returns a grade for a tier, based on the defined grading system."""
+    grade = "?"
+    if system == "sm5":
+        grade = tier_to_grade_sm5(parse.calculate_tier_sm5(step))
+    elif system == "itg":
+        grade = tier_to_grade_itg(parse.calculate_tier_itg(step))
+    else:
+        print("{} is not a valid grading system.".format(system))
+        exit(1)
+    return grade
