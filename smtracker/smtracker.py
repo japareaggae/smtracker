@@ -86,12 +86,16 @@ def main():
     dest = args.dest
 
     # Parse the statsxml file and return a tree for the outputs
-    stats = etree.parse(statsxml).getroot()
+    if statsxml is not None:
+        stats = etree.parse(statsxml).getroot()
 
-    # Check if this is a valid Stats.xml file before doing anything
-    if stats.find("SongScores") is None:
-        print("Error: The specified file is not a valid StepMania Stats.xml file")
-        exit(1)
+        # Check if this is a valid Stats.xml file before doing anything
+        if stats.find("SongScores") is None:
+            print("Error: The specified file is not a valid StepMania Stats.xml file")
+            exit(1)
+
+    else:
+        stats = None
 
     # Remove ignored difficulties from difficulties array
     if args.ignore:

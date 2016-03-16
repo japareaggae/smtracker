@@ -49,8 +49,21 @@ class Viewer(QMainWindow):
         self.difficulties = difficulties
 
         # Create a skeleton table
-        song_count = len(self.stats.find("SongScores"))
-        self.table = QTableWidget(song_count, len(self.difficulties) + 2)
+        if self.stats is not None:
+            song_count = len(self.stats.find("SongScores"))
+            self.table = QTableWidget(song_count, len(self.difficulties) + 2)
+        else:
+            self.table = QTableWidget(0, len(self.difficulties) + 2)
+
+        table_header = ["Group", "Title"]
+        table_header.extend(self.difficulties)
+
+        # Sets the header cells
+        for head in table_header:
+            where = table_header.index(head)
+            headeritem = QTableWidgetItem()
+            headeritem.setText(head)
+            self.table.setHorizontalHeaderItem(where, headeritem)
 
         self.theme = theme
         self.init_ui()
@@ -58,19 +71,10 @@ class Viewer(QMainWindow):
 
     def init_table(self):
         """Generates a table with the song scores."""
-        HEADER = ["Group", "Title"]
-        HEADER.extend(self.difficulties)
 
         # Prepare table for inserting items
         self.table.clearContents()
         self.table.setSortingEnabled(False)
-
-        # Sets the header cells
-        for head in HEADER:
-            where = HEADER.index(head)
-            headeritem = QTableWidgetItem()
-            headeritem.setText(head)
-            self.table.setHorizontalHeaderItem(where, headeritem)
 
         # Current table row
         current_row = 0
@@ -264,7 +268,9 @@ Miss: {}""".format(timings['W1'], timings['W2'], timings['W3'], timings['W4'],
         themebox.activated.connect(lambda: self.themebox_activated(themebox))
 
         self.init_menubar()
-        self.init_table()
+
+        if self.stats is not None:
+            self.init_table()
 
         hbox = QHBoxLayout()
         hbox.addWidget(combolabel)
@@ -280,7 +286,10 @@ Miss: {}""".format(timings['W1'], timings['W2'], timings['W3'], timings['W4'],
         self.setCentralWidget(container)
 
         self.statusBar()
-        self.set_statusbar()
+        if self.stats is not None:
+            self.set_statusbar()
+        else:
+            self.setStatusTip("No Stats.xml file loaded")
         self.setWindowTitle('smtracker - StepMania Score Tracker')
         self.resize(1200, 700)
         self.show()

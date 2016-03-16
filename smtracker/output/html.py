@@ -101,6 +101,10 @@ def save(stats, mode, difficulties, theme, dest='/tmp/sm.html'):
     theme        -- which metrics should be used for printing grades
     dest         -- where should the file be saved
     """
-    with open(dest, 'w') as filename:
-        filename.write(generate(stats, mode, difficulties, theme))
+
+    if stats is None:
+        print("Error: Could not find a Stats.xml file")
+    else:
+        with open(dest, 'w') as filename:
+            filename.write(generate(stats, mode, difficulties, theme))
 
