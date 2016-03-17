@@ -219,3 +219,90 @@ def calculate_tier_itg(step):
     else:
         tier = "Tier17"
     return tier
+
+# Here's how SuperNOVA2 calculates scores and grades:
+# https://remywiki.com/DanceDanceRevolution_SuperNOVA2_Scoring_System
+
+def calculate_score_supernova2(step):
+    """Calculates a score for the first HighScore in a Steps ElementTree, using
+    DDR SuperNOVA2's scoring system.
+
+    Arguments:
+    step -- the Steps ElementTree to search
+    """
+
+    # Calculate our grades
+    timings = highscore_timings(step)
+    hold_timings = highscore_holds(step)
+
+    # Notecount for a song
+    note_count = (timings['Miss'] + timings['W5'] + timings['W4'] + timings['W3'] +
+                  timings['W2'] + timings['W1'] + hold_timings['Held'] +
+                  hold_timings['LetGo'])
+
+    # How much each step is worth
+    step_value = 1000000 / note_count
+
+    # Calculate the player's score
+    score = (step_value * (timings['W1'] + hold_timings['Held']) +
+             (step_value - 10) * timings['W2'] +
+             ((step_value / 2) - 10) * timings['W3'])
+
+    # Round scores to multiples of 10
+    score = int(10 * round(score/10))
+    return score
+
+
+def calculate_tier_supernova2(step):
+    """Calculates a tier for the first HighScore in a Steps ElementTree, using
+    DDR SuperNOVA2's scoring system.
+
+    Arguments:
+    step -- the Steps ElementTree to search
+    """
+    # If the file says we failed, then we failed
+    if highscore_stat(step, "Grade") == "Failed":
+        return "Failed"
+
+    # Get our score
+    score = calculate_score_supernova2(step)
+
+    # AAA and AA are always 990000 and 950000, respectively
+    if score >= 990000:
+        tier = "Tier01"
+    elif score >= 950000:
+        tier = "Tier02"
+    else:
+        # Tiers from A to C have flexible score requirements, depending on the
+        # difficulty of a chart.
+        if (step.attrib['Difficulty'] == "Hard" or
+                step.attrib['Difficulty'] == "Expert"):
+            if score >= 900000:
+                tier = "Tier03"
+            elif score >= 800000:
+                tier = "Tier04"
+            elif score >= 700000:
+                tier = "Tier05"
+            else:
+                tier = "Tier06"
+        elif step.attrib['Difficulty'] == "Medium":
+            if score >= 850000:
+                tier = "Tier03"
+            elif score >= 750000:
+                tier = "Tier04"
+            elif score >= 600000:
+                tier = "Tier05"
+            else:
+                tier = "Tier06"
+        elif (step.attrib['Difficulty'] == "Novice" or
+              step.attrib['Difficulty'] == "Easy"):
+            if score >= 800000:
+                tier = "Tier03"
+            elif score >= 700000:
+                tier = "Tier04"
+            elif score >= 500000:
+                tier = "Tier05"
+            else:
+                tier = "Tier06"
+
+    return tier

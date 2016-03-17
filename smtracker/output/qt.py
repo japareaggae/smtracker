@@ -252,7 +252,7 @@ Miss: {}""".format(timings['W1'], timings['W2'], timings['W3'], timings['W4'],
         """Initializes the user interface."""
         modes = ("dance-single", "dance-double", "pump-single", "pump-double",
                  "pump-halfdouble")
-        themes = ("sm5", "itg")
+        themes = ("sm5", "itg", "supernova2")
 
         # Combobox for game modes
         combobox = QComboBox()

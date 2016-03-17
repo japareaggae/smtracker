@@ -67,7 +67,8 @@ def get_argparser():
     parser.add_argument('-t', dest='theme', nargs='?', default='sm5',
                         const='sm5',
                         help="what theme should be used for calculating grades "
-                        "(valid options are 'sm5' and 'itg', defaults to 'sm5')")
+                        "(valid options are 'sm5', 'itg' and 'supernova2', "
+                        "defaults to 'sm5')")
     parser.add_argument('-i', dest='ignore', nargs='+',
                         help="ignore the specified difficulty")
     parser.add_argument('-d', dest='dest', nargs='?', default='/tmp/sm.html',

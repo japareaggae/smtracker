@@ -62,6 +62,21 @@ def tier_to_grade_itg(tier):
         return "?"
 
 
+def tier_to_grade_supernova2(tier):
+    """Converts a tier to a grade according to DDR SuperNOVA2 default metrics."""
+    grades = {'Failed': 'E',
+              'Tier06': 'D',
+              'Tier05': 'C',
+              'Tier04': 'B',
+              'Tier03': 'A',
+              'Tier02': 'AA',
+              'Tier01': 'AAA'}
+    try:
+        return grades[tier]
+    except KeyError:
+        return "?"
+
+
 def highscore_grade(step, system):
     """Returns a grade for a tier, based on the defined grading system."""
     grade = "?"
@@ -69,6 +84,8 @@ def highscore_grade(step, system):
         grade = tier_to_grade_sm5(parse.calculate_tier_sm5(step))
     elif system == "itg":
         grade = tier_to_grade_itg(parse.calculate_tier_itg(step))
+    elif system == "supernova2":
+        grade = tier_to_grade_supernova2(parse.calculate_tier_supernova2(step))
     else:
         print("{} is not a valid grading system.".format(system))
         exit(1)
