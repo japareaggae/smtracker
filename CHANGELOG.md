@@ -1,3 +1,12 @@
+## v1.4.1 (2016-03-18)
+### Changed
+
+* Changelog and desktop file are now included in the source distribution
+
+### Bugfixes
+
+* Revert "Use 'Novice' and 'Expert' instead of 'Beginner' and 'Challenge'"
+
 ## v1.4.0 (2016-03-17)
 ### Added
 
