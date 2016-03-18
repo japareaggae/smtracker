@@ -1,21 +1,23 @@
 # Maintainer: Renan Guilherme <japareaggae@gmail.com>
 pkgname=smtracker
-pkgver=1.2.2
+pkgver=1.4.0
 pkgrel=1
 pkgdesc="A StepMania score tracker"
 arch=('any')
 url="https://github.com/japareaggae/smtracker-python"
 license=('GPL3')
-depends=('python' 'python-pyqt5' 'python-jinja')
+depends=('python-pyqt5' 'python-jinja')
 optdepends=('stepmania')
 options=(!emptydirs)
 source=("https://github.com/japareaggae/${pkgname}/archive/v${pkgver}.tar.gz")
-md5sums=('33b9bee3e770d134875a87a6cd400f0f')
-sha256sums=('5a2c4bfc4468e3ce1441735a60264a8e2e6eba9e5668afc5bb0bb2bfec32e5ee')
+install=smtracker.install
+md5sums=('88f67ab35b3c7c8addd02b1df7b2aa72')
+sha256sums=('772809e716d006f7bedda3d063f573a9d92ace3fd83a1742c8ec8c8ae1282d9e')
 
 package() {
   cd "$srcdir/$pkgname-$pkgver"
   python setup.py install --root="$pkgdir/" --optimize=1
+  install -D smtracker.desktop "$pkgdir/usr/share/applications/smtracker.desktop"
 }
 
 # vim:set ts=2 sw=2 et:
