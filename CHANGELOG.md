@@ -1,12 +1,12 @@
 ## v1.4.0 (2016-03-17)
 ### Added
 
-* Support the SuperNOVA2 grading system
+* Support the SuperNOVA2 grading system ([details on RemyWiki][rw-sn2])
 
 ### Changed
 
 * Grades are now calculated by hand instead of being parsed from the
-  Stats.xml file
+  Stats.xml file ([details on ZIv][ziv-grades])
 
 ### Bugfixes
 
@@ -54,4 +54,6 @@
 
 * Initial release
 
+[rw-sn2]: https://remywiki.com/DanceDanceRevolution_SuperNOVA2_Scoring_System
+[ziv-grades]: https://zenius-i-vanisher.com/v5.2/viewthread.php?threadid=6582#p349466
 <!-- vim: set ft=markdown: -->
