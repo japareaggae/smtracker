@@ -26,7 +26,7 @@ import smtracker.output.plain as plain
 import smtracker.output.qt as qt
 import smtracker.output.html as html
 
-DIFFICULTIES = ["Novice", "Easy", "Medium", "Hard", "Expert"]
+DIFFICULTIES = ["Beginner", "Easy", "Medium", "Hard", "Challenge"]
 
 
 def find_stats():
