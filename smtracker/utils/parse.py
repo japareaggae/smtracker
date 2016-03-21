@@ -17,6 +17,23 @@
 
 """Functions for parsing pieces of stats."""
 
+import sys
+import os
+
+def get_profile_location():
+    """Returns the directories containing the local and machine profiles."""
+    lp_location = "/Save/LocalProfiles/"
+    mp_location = "/Save/MachineProfile/"
+
+    if sys.platform.startswith('linux'):
+        local_profile = os.environ['HOME'] + "/.stepmania-5.0" + lp_location
+        machine_profile = os.environ['HOME'] + "/.stepmania-5.0" + mp_location
+    elif sys.platform.startswith('win32') or sys.platform.startswith('cygwin'):
+        local_profile = os.environ['APPDATA'] + "/StepMania 5" + lp_location
+        machine_profile = os.environ['APPDATA'] + "/StepMania 5" + mp_location
+    return (local_profile, machine_profile)
+
+
 def get_profile_name(stats):
     """Gets a profile name from the Stats tree."""
     is_machine = stats.find("GeneralData").find("IsMachine").text

@@ -26,21 +26,18 @@ import smtracker.output.plain as plain
 import smtracker.output.qt as qt
 import smtracker.output.html as html
 
+import smtracker.utils.parse as parse
+
 DIFFICULTIES = ["Beginner", "Easy", "Medium", "Hard", "Challenge"]
 
 
 def find_stats():
     """Returns the first LocalProfile, or else returns a MachineProfile."""
-    lp_location = "/Save/LocalProfiles/00000000/Stats.xml"
-    mp_location = "/Save/MachineProfile/Stats.xml"
-    statsxml = None
+    lp_folder, mp_folder = parse.get_profile_location()
 
-    if sys.platform.startswith('linux'):
-        local_profile = os.environ['HOME'] + "/.stepmania-5.0" + lp_location
-        machine_profile = os.environ['HOME'] + "/.stepmania-5.0" + mp_location
-    elif sys.platform.startswith('win32') or sys.platform.startswith('cygwin'):
-        local_profile = os.environ['APPDATA'] + "/StepMania 5" + lp_location
-        machine_profile = os.environ['APPDATA'] + "/StepMania 5" + mp_location
+    local_profile = lp_folder + "00000000/Stats.xml"
+    machine_profile = mp_folder + "/Stats.xml"
+    statsxml = None
 
     if os.path.isfile(local_profile):
         statsxml = local_profile
