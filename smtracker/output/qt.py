@@ -252,22 +252,38 @@ Miss: {}""".format(timings['W1'], timings['W2'], timings['W3'], timings['W4'],
         file_menu = menubar.addMenu('&File')
         file_menu.addAction(open_action)
 
-        # Define the location for profiles and prepare the machine profile
-        profile_folder, mp_folder = parse.get_profile_location()
-        machine_profile = etree.parse(mp_folder + "Stats.xml").getroot()
-
         # Create the profile submenu and add the machine profile item
         profile_menu = file_menu.addMenu('Open &profile')
         mp_action = profile_menu.addAction('Machine Profile')
-        mp_action.triggered.connect(lambda: self.set_stats(machine_profile))
-        profile_menu.addSeparator()
 
-        # Add items for each local profile
-        for profile in os.listdir(profile_folder):
-            tempstats = etree.parse(profile_folder + profile + "/Stats.xml").getroot()
-            tempname = parse.get_profile_name(tempstats)
-            action = profile_menu.addAction(tempname)
-            action.triggered.connect(lambda: self.set_stats(tempstats))
+        # Define the location for profiles
+        profile_folder, mp_folder = parse.get_profile_location()
+
+        # Check if the machine profile exists
+        if os.path.isfile(mp_folder + "Stats.xml") is True:
+            no_mp = False
+            mp_action.setStatusTip('Open this machine\'s profile')
+            machine_profile = etree.parse(mp_folder + "Stats.xml").getroot()
+            mp_action.triggered.connect(lambda: self.set_stats(machine_profile))
+        else:
+            no_mp = True
+            mp_action.setEnabled(False)
+
+        # Check if there's any local profiles
+        if os.path.isdir(profile_folder) is True:
+            no_lp = False
+            profile_menu.addSeparator()
+            for profile in os.listdir(profile_folder):
+                tempstats = etree.parse(profile_folder + profile + "/Stats.xml").getroot()
+                tempname = parse.get_profile_name(tempstats)
+                action = profile_menu.addAction(tempname)
+                action.triggered.connect(lambda: self.set_stats(tempstats))
+        else:
+            no_lp = True
+
+        # If there are no profiles at all, disable profile menu
+        if no_mp is True and no_lp is True:
+            profile_menu.setEnabled(False)
 
         # Add the rest of the actions to the menubar
         file_menu.addAction(export_action)
