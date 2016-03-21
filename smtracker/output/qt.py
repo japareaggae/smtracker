@@ -20,6 +20,7 @@
 import sys
 import os
 import xml.etree.ElementTree as etree
+import functools
 
 from PyQt5.QtWidgets import (QMainWindow, QWidget, QLabel, QComboBox,
                              QTableWidget, QTableWidgetItem, QHBoxLayout,
@@ -277,7 +278,8 @@ Miss: {}""".format(timings['W1'], timings['W2'], timings['W3'], timings['W4'],
                 tempstats = etree.parse(profile_folder + profile + "/Stats.xml").getroot()
                 tempname = parse.get_profile_name(tempstats)
                 action = profile_menu.addAction(tempname)
-                action.triggered.connect(lambda: self.set_stats(tempstats))
+                function = functools.partial(self.set_stats, tempstats)
+                action.triggered.connect(function)
         else:
             no_lp = True
 
