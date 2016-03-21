@@ -19,7 +19,6 @@
 
 import argparse
 import os
-import sys
 import xml.etree.ElementTree as etree
 
 import smtracker.output.plain as plain
