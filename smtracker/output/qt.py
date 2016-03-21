@@ -18,6 +18,7 @@
 """A Qt-based interface for viewing your scores."""
 
 import sys
+import os
 import xml.etree.ElementTree as etree
 
 from PyQt5.QtWidgets import (QMainWindow, QWidget, QLabel, QComboBox,
@@ -189,8 +190,25 @@ Miss: {}""".format(timings['W1'], timings['W2'], timings['W3'], timings['W4'],
                       filename)
 
 
+    def set_statusbar(self):
+        """Resets the application statusbar."""
+        displayname = parse.get_profile_name(self.stats)
+        lastplayed = parse.get_last_played(self.stats)
+        status = 'Profile: {} // Last played: {}'.format(displayname,
+                                                         lastplayed)
+        self.setStatusTip(status)
+
+
+    def set_stats(self, stats):
+        """Sets a new Stats.xml file and regenerates the UI."""
+        self.stats = stats
+        self.table.setRowCount(len(self.stats.find("SongScores")))
+        self.init_table()
+        self.set_statusbar()
+
+
     def open_file(self):
-        """Sets a new Stats.xml file and regenerates the table."""
+        """Opens a QFileDialog to set a new Stats.xml file."""
         filetuple = QFileDialog.getOpenFileName(self, "Select Stats.xml file "
                                                 "to open", None, "StepMania stats "
                                                 "files (*.xml)")
@@ -201,23 +219,13 @@ Miss: {}""".format(timings['W1'], timings['W2'], timings['W3'], timings['W4'],
                                      "file is not a valid StepMania Stats.xml "
                                      "file.")
             else:
-                self.stats = tempstats
-                self.table.setRowCount(len(self.stats.find("SongScores")))
-                self.init_table()
-                self.set_statusbar()
-
-
-    def set_statusbar(self):
-        """Resets the application statusbar."""
-        displayname = parse.get_profile_name(self.stats)
-        lastplayed = parse.get_last_played(self.stats)
-        status = 'Profile: {} // Last played: {}'.format(displayname,
-                                                         lastplayed)
-        self.setStatusTip(status)
+                self.set_stats(tempstats)
 
 
     def init_menubar(self):
         """Generates the main window menu bar."""
+
+        # Creates the basic actions
         exit_action = QAction('E&xit', self)
         exit_action.setShortcut('Ctrl+Q')
         exit_action.setStatusTip('Exit smtracker')
@@ -239,9 +247,29 @@ Miss: {}""".format(timings['W1'], timings['W2'], timings['W3'], timings['W4'],
         qt_action = QAction('About &Qt...', self)
         qt_action.triggered.connect(QApplication.aboutQt)
 
+        # Creates the menu bar and starts adding items to it
         menubar = self.menuBar()
         file_menu = menubar.addMenu('&File')
         file_menu.addAction(open_action)
+
+        # Define the location for profiles and prepare the machine profile
+        profile_folder, mp_folder = parse.get_profile_location()
+        machine_profile = etree.parse(mp_folder + "Stats.xml").getroot()
+
+        # Create the profile submenu and add the machine profile item
+        profile_menu = file_menu.addMenu('Open &profile')
+        mp_action = profile_menu.addAction('Machine Profile')
+        mp_action.triggered.connect(lambda: self.set_stats(machine_profile))
+        profile_menu.addSeparator()
+
+        # Add items for each local profile
+        for profile in os.listdir(profile_folder):
+            tempstats = etree.parse(profile_folder + profile + "/Stats.xml").getroot()
+            tempname = parse.get_profile_name(tempstats)
+            action = profile_menu.addAction(tempname)
+            action.triggered.connect(lambda: self.set_stats(tempstats))
+
+        # Add the rest of the actions to the menubar
         file_menu.addAction(export_action)
         file_menu.addAction(exit_action)
         about_menu = menubar.addMenu('&About')
