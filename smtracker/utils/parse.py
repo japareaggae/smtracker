@@ -293,7 +293,7 @@ def calculate_tier_supernova2(step):
         # Tiers from A to C have flexible score requirements, depending on the
         # difficulty of a chart.
         if (step.attrib['Difficulty'] == "Hard" or
-                step.attrib['Difficulty'] == "Expert"):
+                step.attrib['Difficulty'] == "Challenge"):
             if score >= 900000:
                 tier = "Tier03"
             elif score >= 800000:
@@ -311,7 +311,7 @@ def calculate_tier_supernova2(step):
                 tier = "Tier05"
             else:
                 tier = "Tier06"
-        elif (step.attrib['Difficulty'] == "Novice" or
+        elif (step.attrib['Difficulty'] == "Beginner" or
               step.attrib['Difficulty'] == "Easy"):
             if score >= 800000:
                 tier = "Tier03"
@@ -321,5 +321,4 @@ def calculate_tier_supernova2(step):
                 tier = "Tier05"
             else:
                 tier = "Tier06"
-
     return tier
