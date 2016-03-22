@@ -1,3 +1,15 @@
+## Upcoming
+### Added
+
+* Qt: Added a menu for selecting a local profile or the machine profile
+  if any of those are available in the machine
+* Qt: Expose beat game modes on the game mode combobox
+
+### Bugfixes
+
+* Fixed the SuperNOVA2 grading system checking for the wrong difficulties
+  (related to the "novice/beginner and expert/challenge" issue)
+
 ## v1.4.1 (2016-03-18)
 ### Changed
 
