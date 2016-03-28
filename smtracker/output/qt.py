@@ -42,18 +42,13 @@ class Viewer(QMainWindow):
         """Initializes basic information about the Viewer class."""
         super().__init__()
 
-        # Define our XML tree
-        self.stats = stats
+        ### Initialize parameters passed from smtracker.py
+        self.stats = stats                 # XML tree
+        self.mode = mode                   # Gamemode
+        self.difficulties = difficulties   # Tracked difficulties
 
-        # Define initial gamemode on combobox
-        self.mode = mode
-
-        # Define the difficulties
-        self.difficulties = difficulties
-
-        ### Interface options
-        # Enable icons
-        self.icons_enabled = True
+        ### Initialize interface options
+        self.icons_enabled = True          # Icons
 
         # Create a skeleton table
         if self.stats is not None:
@@ -107,8 +102,8 @@ class Viewer(QMainWindow):
             step_counter = 0
             for diff in self.difficulties:
                 try:
-                    if song[step_counter].attrib['Difficulty'] == diff and \
-                       song[step_counter].attrib['StepsType'] == self.mode:
+                    if (song[step_counter].attrib['Difficulty'] == diff and
+                        song[step_counter].attrib['StepsType'] == self.mode):
                         try:
                             grade = smformat.highscore_grade(song[step_counter], self.theme)
                             percent = float(parse.highscore_stat(song[step_counter], "PercentDP")) * 100
