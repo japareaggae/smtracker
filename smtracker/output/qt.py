@@ -50,12 +50,17 @@ class Viewer(QMainWindow):
         ### Initialize interface options
         self.icons_enabled = True          # Icons
 
-        # Create a skeleton table
+        ### Create an empty table
         if self.stats is not None:
             song_count = len(self.stats.find("SongScores"))
             self.table = QTableWidget(song_count, len(self.difficulties) + 2)
         else:
             self.table = QTableWidget(0, len(self.difficulties) + 2)
+
+        # Set some basic table attributes
+        self.table.setIconSize(QSize(32, 32))
+        self.table.setEditTriggers(QAbstractItemView.NoEditTriggers)
+        self.table.setSelectionMode(QAbstractItemView.NoSelection)
 
         table_header = ["Group", "Title"]
         table_header.extend(self.difficulties)
@@ -147,9 +152,6 @@ Miss: {}""".format(timings['W1'], timings['W2'], timings['W3'], timings['W4'],
             current_row = current_row + 1
 
         # Final table adjustments
-        self.table.setIconSize(QSize(32, 32))
-        self.table.setEditTriggers(QAbstractItemView.NoEditTriggers)
-        self.table.setSelectionMode(QAbstractItemView.NoSelection)
         self.table.resizeColumnsToContents()
         self.table.setSortingEnabled(True)
         self.table.sortByColumn(0, Qt.AscendingOrder)
