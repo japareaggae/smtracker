@@ -172,14 +172,17 @@ Miss: {}""".format(timings['W1'], timings['W2'], timings['W3'], timings['W4'],
     def about_box(self):
         """Shows an about box with information about smtracker."""
 
-        blurb = "<p>{} (version {})</p>".format(smtracker.__description__,
-                                                smtracker.__version__)
-        gpl = "<p>Released under the terms of the " + \
-              "<a href=\"http://www.gnu.org/licenses/gpl-3.0.html\">GNU " + \
-              "General Public License, version 3 or later</a></p>"
-        url = "<a href=\"{}\">{}</a></p>".format(smtracker.__url__,
-                                                 smtracker.__url__)
-        text = blurb + url + gpl
+        text = ("<p>{desc} (version {vers})</p>"
+                "<p>Released under the terms of the <a href=\"http://www.gnu.org"
+                "/licenses/gpl-3.0.html\">GNU General Public License"
+                ", version 3 or later</a></p>"
+                "<p>Icons provided by <a href=\"http://stepmania.com\">"
+                "StepMania</a> under the <a href=\"https://github.com/stepmania"
+                "/stepmania/blob/master/Docs/Licenses.txt\">MIT license</a></p>"
+                "<p><a href=\"{url}\">{url}</a></p>").format(
+                    desc=smtracker.__description__,
+                    vers=smtracker.__version__,
+                    url=smtracker.__url__)
         QMessageBox.information(self, "About smtracker", text)
 
 
