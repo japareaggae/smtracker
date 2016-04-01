@@ -1,21 +1,29 @@
 # Maintainer: Renan Guilherme <japareaggae@gmail.com>
-pkgname=smtracker
+_pkgname=smtracker
+pkgname=smtracker-git
 pkgver=1.4.0
 pkgrel=1
-pkgdesc="A StepMania score tracker"
+pkgdesc="A StepMania score tracker (git version)"
 arch=('any')
 url="https://github.com/japareaggae/smtracker-python"
 license=('GPL3')
 depends=('python-pyqt5' 'python-jinja')
 optdepends=('stepmania')
+provides=("${_pkgname}")
+conflicts=("${_pkgname}")
 options=(!emptydirs)
-source=("https://github.com/japareaggae/${pkgname}/archive/v${pkgver}.tar.gz")
+source=("git+https://github.com/japareaggae/${_pkgname}.git")
 install=smtracker.install
-md5sums=('88f67ab35b3c7c8addd02b1df7b2aa72')
-sha256sums=('772809e716d006f7bedda3d063f573a9d92ace3fd83a1742c8ec8c8ae1282d9e')
+md5sums=('SKIP')
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "${_pkgname}"
+  git describe --long --tags | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
+}
 
 package() {
-  cd "$srcdir/$pkgname-$pkgver"
+  cd "${_pkgname}"
   python setup.py install --root="$pkgdir/" --optimize=1
   install -D smtracker.desktop "$pkgdir/usr/share/applications/smtracker.desktop"
 }
