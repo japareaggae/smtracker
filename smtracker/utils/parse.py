@@ -356,7 +356,7 @@ def calculate_tier_iidx(step):
     max_points = 2 * note_count
 
     # Calculate percentage
-    percentage = ex_score / percentage
+    percentage = ex_score / max_points
 
     # Calculate tiers
     # TODO: Is a Tier08 the same as a Failed?
