@@ -77,6 +77,23 @@ def tier_to_grade_supernova2(tier):
         return "?"
 
 
+def tier_to_grade_iidx(tier):
+    """Converts a tier to a grade according to beatmania IIDX default metrics."""
+    grades = {'Failed': 'F',
+              'Tier08': 'F',
+              'Tier07': 'E',
+              'Tier06': 'D',
+              'Tier05': 'C',
+              'Tier04': 'B',
+              'Tier03': 'A',
+              'Tier02': 'AA',
+              'Tier01': 'AAA'}
+    try:
+        return grades[tier]
+    except KeyError:
+        return "?"
+
+
 def highscore_grade(step, system):
     """Returns a grade for a tier, based on the defined grading system."""
     grade = "?"
@@ -86,6 +103,8 @@ def highscore_grade(step, system):
         grade = tier_to_grade_itg(parse.calculate_tier_itg(step))
     elif system == "supernova2":
         grade = tier_to_grade_supernova2(parse.calculate_tier_supernova2(step))
+    elif system == "iidx":
+        grade = tier_to_grade_iidx(parse.calculate_tier_iidx(step))
     else:
         print("{} is not a valid grading system.".format(system))
         exit(1)

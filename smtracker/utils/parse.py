@@ -322,3 +322,59 @@ def calculate_tier_supernova2(step):
             else:
                 tier = "Tier06"
     return tier
+
+# Some information on how IIDX calculates its grades (section III.B.):
+# http://www.gamefaqs.com/ps2/932320-beatmania-iidx-11-iidx-red/faqs/42900
+# Also on RemyWiki:
+# https://remywiki.com/IIDX_General_Info
+
+def calculate_tier_iidx(step):
+    """Calculates a tier for the first HighScore in a Steps ElementTree, using
+    beatmania IIDX's grading system.
+    This may not be arcade-accurate for songs with hold notes, as IIDX has
+    lift notes at the end of each hold note, while StepMania does not (at
+    least as of 5.0.11).
+
+    Arguments:
+    step -- the Steps ElementTree to search
+    """
+    # If the file says we failed, then we failed
+    if highscore_stat(step, "Grade") == "Failed":
+        return "Failed"
+
+    # Get the timings for the high score
+    timings = highscore_timings(step)
+
+    # Get the EX Score
+    ex_score = timings['W1'] * 2 + timings['W2']
+
+    # Notecount for a song
+    note_count = (timings['Miss'] + timings['W5'] + timings['W4'] + timings['W3'] +
+                  timings['W2'] + timings['W1'])
+
+    # Maximum EX Score possible in a song
+    max_points = 2 * note_count
+
+    # Calculate percentage
+    percentage = ex_score / percentage
+
+    # Calculate tiers
+    # TODO: Is a Tier08 the same as a Failed?
+    if percentage >= 8/9:
+        tier = "Tier01"
+    elif percentage >= 7/9:
+        tier = "Tier02"
+    elif percentage >= 6/9:
+        tier = "Tier03"
+    elif percentage >= 5/9:
+        tier = "Tier04"
+    elif percentage >= 4/9:
+        tier = "Tier05"
+    elif percentage >= 3/9:
+        tier = "Tier06"
+    elif percentage >= 2/9:
+        tier = "Tier07"
+    else:
+        tier = "Tier08"
+
+    return tier
