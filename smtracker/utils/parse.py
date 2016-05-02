@@ -338,10 +338,6 @@ def calculate_tier_iidx(step):
     Arguments:
     step -- the Steps ElementTree to search
     """
-    # If the file says we failed, then we failed
-    if highscore_stat(step, "Grade") == "Failed":
-        return "Failed"
-
     # Get the timings for the high score
     timings = highscore_timings(step)
 
@@ -359,7 +355,9 @@ def calculate_tier_iidx(step):
     percentage = ex_score / max_points
 
     # Calculate tiers
-    # TODO: Is a Tier08 the same as a Failed?
+    # You may notice that there's no Failed tier here. This is because in IIDX,
+    # passing and failing is largely irrelevant: the arcade will give you a grade
+    # even if you fail a song, unlike DDR which always gives you an E.
     if percentage >= 8/9:
         tier = "Tier01"
     elif percentage >= 7/9:
