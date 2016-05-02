@@ -77,6 +77,28 @@ def tier_to_grade_supernova2(tier):
         return "?"
 
 
+def tier_to_grade_ddra(tier):
+    """Converts a tier to a grade according to DDR A default metrics."""
+    grades = {'Failed': 'E',
+              'Tier15': 'D',
+              'Tier14': 'D+',
+              'Tier13': 'C-',
+              'Tier12': 'C',
+              'Tier11': 'C+',
+              'Tier10': 'B-',
+              'Tier09': 'B',
+              'Tier08': 'B+',
+              'Tier07': 'A-',
+              'Tier06': 'A',
+              'Tier05': 'A+',
+              'Tier04': 'AA-',
+              'Tier03': 'AA',
+              'Tier02': 'AA+',
+              'Tier01': 'AAA'}
+    try:
+        return grades[tier]
+    except KeyError:
+        return "?"
 def tier_to_grade_iidx(tier):
     """Converts a tier to a grade according to beatmania IIDX default metrics."""
     grades = {'Failed': 'F',
@@ -103,6 +125,8 @@ def highscore_grade(step, system):
         grade = tier_to_grade_itg(parse.calculate_tier_itg(step))
     elif system == "supernova2":
         grade = tier_to_grade_supernova2(parse.calculate_tier_supernova2(step))
+    elif system == "ddra":
+        grade = tier_to_grade_ddra(parse.calculate_tier_ddra(step))
     elif system == "iidx":
         grade = tier_to_grade_iidx(parse.calculate_tier_iidx(step))
     else:

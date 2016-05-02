@@ -1,6 +1,8 @@
 ## Upcoming
 ### Added
 
+* Support beatmania IIDX's grading system
+* Support DDR A's grading system
 * Qt: Added a menu for selecting a local profile or the machine profile
   if any of those are available in the machine
 * Qt: Add icons to table cells (only on sm5 grading system for now)

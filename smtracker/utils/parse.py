@@ -240,6 +240,17 @@ def calculate_tier_itg(step):
 # Here's how SuperNOVA2 calculates scores and grades:
 # https://remywiki.com/DanceDanceRevolution_SuperNOVA2_Scoring_System
 
+def calculate_ddr_stepvalue(timings, hold_timings):
+    """Calculates the value of a note in a chart using DDR metrics."""
+
+    note_count = (timings['Miss'] + timings['W5'] + timings['W4'] + timings['W3'] +
+                  timings['W2'] + timings['W1'] + hold_timings['Held'] +
+                  hold_timings['LetGo'])
+
+    # How much each step is worth
+    return (1000000 / note_count)
+
+
 def calculate_score_supernova2(step):
     """Calculates a score for the first HighScore in a Steps ElementTree, using
     DDR SuperNOVA2's scoring system.
@@ -252,18 +263,37 @@ def calculate_score_supernova2(step):
     timings = highscore_timings(step)
     hold_timings = highscore_holds(step)
 
-    # Notecount for a song
-    note_count = (timings['Miss'] + timings['W5'] + timings['W4'] + timings['W3'] +
-                  timings['W2'] + timings['W1'] + hold_timings['Held'] +
-                  hold_timings['LetGo'])
-
-    # How much each step is worth
-    step_value = 1000000 / note_count
+    step_value = calculate_ddr_stepvalue(timings, hold_timings)
 
     # Calculate the player's score
     score = (step_value * (timings['W1'] + hold_timings['Held']) +
              (step_value - 10) * timings['W2'] +
              ((step_value / 2) - 10) * timings['W3'])
+
+    # Round scores to multiples of 10
+    score = int(10 * round(score/10))
+    return score
+
+
+def calculate_score_ddra(step):
+    """Calculates a score for the first HighScore in a Steps ElementTree, using
+    DDR A's scoring system.
+
+    Arguments:
+    step -- the Steps ElementTree to search
+    """
+
+    # Calculate our grades
+    timings = highscore_timings(step)
+    hold_timings = highscore_holds(step)
+
+    step_value = calculate_ddr_stepvalue(timings, hold_timings)
+
+    # Calculate the player's score
+    score = (step_value * (timings['W1'] + hold_timings['Held']) +
+             (step_value - 10) * timings['W2'] +
+             ((step_value / (5/3)) - 10) * timings['W3'] +
+             ((step_value / 5) - 10) * timings['W4'])
 
     # Round scores to multiples of 10
     score = int(10 * round(score/10))
@@ -321,6 +351,54 @@ def calculate_tier_supernova2(step):
                 tier = "Tier05"
             else:
                 tier = "Tier06"
+    return tier
+
+
+def calculate_tier_ddra(step):
+    """Calculates a tier for the first HighScore in a Steps ElementTree, using
+    DDR A's scoring system.
+
+    Arguments:
+    step -- the Steps ElementTree to search
+    """
+    # If the file says we failed, then we failed
+    if highscore_stat(step, "Grade") == "Failed":
+        return "Failed"
+
+    # Get our score
+    score = calculate_score_ddra(step)
+
+    # TODO: Is this for all difficulties, or only on Expert/Challenge?
+    if score >= 990000:   # AAA
+        tier = "Tier01"
+    elif score >= 950000: # AA+
+        tier = "Tier02"
+    elif score >= 900000: # AA
+        tier = "Tier03"
+    elif score >= 890000: # AA-
+        tier = "Tier04"
+    elif score >= 850000: # A+
+        tier = "Tier05"
+    elif score >= 800000: # A
+        tier = "Tier06"
+    elif score >= 790000: # A-
+        tier = "Tier07"
+    elif score >= 750000: # B+
+        tier = "Tier08"
+    elif score >= 700000: # B
+        tier = "Tier09"
+    elif score >= 690000: # B-
+        tier = "Tier10"
+    elif score >= 650000: # C+
+        tier = "Tier11"
+    elif score >= 600000: # C
+        tier = "Tier12"
+    elif score >= 590000: # C-
+        tier = "Tier13"
+    elif score >= 550000: # D+
+        tier = "Tier14"
+    else:                 # D
+        tier = "Tier15"
     return tier
 
 # Some information on how IIDX calculates its grades (section III.B.):
