@@ -1,6 +1,7 @@
 include LICENSE
 include LICENSE.images
 include README.md
+include RUNNING.md
 include CHANGELOG.md
 include smtracker.desktop
 recursive-include smtracker/templates *.html *.css

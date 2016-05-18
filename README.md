@@ -23,13 +23,11 @@ Requirements
 * PyQt5
 * Jinja2
 
-Installing on Windows
+Running smtracker
 -----
 
-On Windows, you will need to install PyQt5 manually in order to use
-smtracker. You can install PyQt5 for Windows from [Riverbank's website][pyqt5].
-It was built against Python 3.4, so make sure to download that version
-of Python and not 3.5. You can download Python 3.4 from [Python's website][pywin].
+Please read the RUNNING.md file for instructions on how to run smtracker
+on most platforms.
 
 Known Issues
 -----
