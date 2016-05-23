@@ -13,7 +13,6 @@ provides=("${_pkgname}")
 conflicts=("${_pkgname}")
 options=(!emptydirs)
 source=("git+https://github.com/japareaggae/${_pkgname}.git")
-install=smtracker.install
 md5sums=('SKIP')
 sha256sums=('SKIP')
 
