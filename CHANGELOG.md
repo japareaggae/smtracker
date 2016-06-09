@@ -17,10 +17,12 @@
 ### Changed
 
 * Changelog and desktop file are now included in the source distribution
+  (when running python setup.py sdist)
 
 ### Bugfixes
 
 * Revert "Use 'Novice' and 'Expert' instead of 'Beginner' and 'Challenge'"
+  as StepMania uses "Beginner" and "Challenge" internally
 
 ## v1.4.0 (2016-03-17)
 ### Added
