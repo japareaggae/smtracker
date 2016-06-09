@@ -22,9 +22,10 @@ On Fedora:
 
 On Windows, first download and install [Python 3.5][pywin], then
 download and install [PyQt5][pyqt5-d]. Finally, open a Command Prompt
-with Administrator Rights and install Jinja2 with pip:
+with Administrator Rights, navigate to the repository root, and ask
+pip to install the rest of the requirements (Jinja2):
 
-`pip install Jinja2`
+`pip install -r requirements.txt`
 
 Step 3: Run the program
 -----
