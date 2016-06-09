@@ -1,4 +1,4 @@
-## Upcoming
+## v1.5.0-alpha (2016-06-08)
 ### Added
 
 * Support beatmania IIDX's grading system

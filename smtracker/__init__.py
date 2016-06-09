@@ -17,6 +17,6 @@
 
 """A StepMania score tracker."""
 
-__version__ = "1.4.1"
+__version__ = "1.5.0-alpha"
 __description__ = "A StepMania score tracker"
 __url__ = "https://github.com/japareaggae/smtracker"
