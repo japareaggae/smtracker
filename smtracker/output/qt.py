@@ -128,8 +128,15 @@ Perfect: {}
 Great: {}
 Good: {}
 Boo: {}
-Miss: {}""".format(timings['W1'], timings['W2'], timings['W3'], timings['W4'],
-                   timings['W5'], timings['Miss'])
+Miss: {}
+-----
+SN2 Score: {}
+DDRA Score: {}
+IIDX EX Score: {}""".format(timings['W1'], timings['W2'], timings['W3'], timings['W4'],
+                   timings['W5'], timings['Miss'],
+                   parse.calculate_score_supernova2(song[step_counter]),
+                   parse.calculate_score_ddra(song[step_counter]),
+                   parse.calculate_score_iidx(song[step_counter]))
                             cell.setToolTip(tooltip)
                             self.table.setItem(current_row, current_column, cell)
                         # This exception is reached if a Song was played, but
