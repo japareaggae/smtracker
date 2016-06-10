@@ -406,6 +406,22 @@ def calculate_tier_ddra(step):
 # Also on RemyWiki:
 # https://remywiki.com/IIDX_General_Info
 
+def calculate_score_iidx(step):
+    """Calculates the EX score for the first HighScore in a Steps ElementTree,
+    using beatmania IIDX's grading system.
+
+    Arguments:
+    step -- the Steps ElementTree to search
+    """
+    # Get the timings for the high score
+    timings = highscore_timings(step)
+
+    # Get the EX Score
+    # TODO: IIDX only defines 5 timing windows, and so does BeatFreeX. Should
+    # we merge W1 and W2 and use W3 as the 'worth 1 point' timing window?
+    return timings['W1'] * 2 + timings['W2']
+
+
 def calculate_tier_iidx(step):
     """Calculates a tier for the first HighScore in a Steps ElementTree, using
     beatmania IIDX's grading system.
@@ -420,14 +436,11 @@ def calculate_tier_iidx(step):
     timings = highscore_timings(step)
 
     # Get the EX Score
-    ex_score = timings['W1'] * 2 + timings['W2']
-
-    # Notecount for a song
-    note_count = (timings['Miss'] + timings['W5'] + timings['W4'] + timings['W3'] +
-                  timings['W2'] + timings['W1'])
+    ex_score = calculate_score_iidx(step)
 
     # Maximum EX Score possible in a song
-    max_points = 2 * note_count
+    max_points = 2 * (timings['Miss'] + timings['W5'] + timings['W4'] + timings['W3'] +
+                      timings['W2'] + timings['W1'])
 
     # Calculate percentage
     percentage = ex_score / max_points
