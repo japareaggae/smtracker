@@ -1,3 +1,8 @@
+## v1.5.0 (2016-06-09)
+### Added
+
+* Added score counts to tooltips (DDR SN2 score, DDR A score, IIDX EX score)
+
 ## v1.5.0-alpha (2016-06-08)
 ### Added
 
