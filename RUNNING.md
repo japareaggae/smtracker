@@ -20,10 +20,10 @@ On Fedora:
 
 `dnf install python3-qt5 python3-jinja2`
 
-On Windows, first download and install [Python 3.5][pywin], then
-download and install [PyQt5][pyqt5-d]. Finally, open a Command Prompt
-with Administrator Rights, navigate to the repository root, and ask
-pip to install the rest of the requirements (Jinja2):
+On Windows, install the latest version of [Python 3][pywin], making
+sure to install pip as well. Then open a Command Prompt with
+Administrator Rights, navigate to the repository root, and ask pip
+to install the requirements:
 
 `pip install -r requirements.txt`
 
