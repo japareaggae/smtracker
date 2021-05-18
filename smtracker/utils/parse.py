@@ -383,8 +383,6 @@ def calculate_tier_ddra(step):
 
     # Get our score
     score = calculate_score_ddra(step)
-
-    # TODO: Is this for all difficulties, or only on Expert/Challenge?
     if score >= 990000:   # AAA
         tier = "Tier01"
     elif score >= 950000: # AA+
