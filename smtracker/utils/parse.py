@@ -26,11 +26,27 @@ def get_profile_location():
     mp_location = "/Save/MachineProfile/"
 
     if sys.platform.startswith('linux'):
-        local_profile = os.environ['HOME'] + "/.stepmania-5.0" + lp_location
-        machine_profile = os.environ['HOME'] + "/.stepmania-5.0" + mp_location
+        if os.path.isdir(os.environ['HOME'] + "/.stepmania-5.3"):
+            local_profile = os.environ['HOME'] + "/.stepmania-5.3" + lp_location
+            machine_profile = os.environ['HOME'] + "/.stepmania-5.3" + mp_location
+        elif os.path.isdir(os.environ['HOME'] + "/.stepmania-5.1"):
+            local_profile = os.environ['HOME'] + "/.stepmania-5.1" + lp_location
+            machine_profile = os.environ['HOME'] + "/.stepmania-5.1" + mp_location
+        else:
+            local_profile = os.environ['HOME'] + "/.stepmania-5.0" + lp_location
+            machine_profile = os.environ['HOME'] + "/.stepmania-5.0" + mp_location
+
     elif sys.platform.startswith('win32') or sys.platform.startswith('cygwin'):
-        local_profile = os.environ['APPDATA'] + "/StepMania 5" + lp_location
-        machine_profile = os.environ['APPDATA'] + "/StepMania 5" + mp_location
+        if os.path.isdir(os.environ['APPDATA'] + "StepMania 5.3"):
+            local_profile = os.environ['APPDATA'] + "/StepMania 5.3" + lp_location
+            machine_profile = os.environ['APPDATA'] + "/StepMania 5.3" + mp_location
+        elif os.path.isdir(os.environ['APPDATA'] + "StepMania 5.1"):
+            local_profile = os.environ['APPDATA'] + "/StepMania 5.1" + lp_location
+            machine_profile = os.environ['APPDATA'] + "/StepMania 5.1" + mp_location
+        else:
+            local_profile = os.environ['APPDATA'] + "/StepMania 5.0" + lp_location
+            machine_profile = os.environ['APPDATA'] + "/StepMania 5.0" + mp_location
+
     return (local_profile, machine_profile)
 
 
