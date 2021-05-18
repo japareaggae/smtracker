@@ -11,3 +11,4 @@ dist/
 *.tar.gz
 *.tar.xz
 
+.vscode/
