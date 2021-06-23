@@ -308,7 +308,10 @@ IIDX EX Score: {}""".format(timings['W1'], timings['W2'], timings['W3'], timings
             no_lp = False
             profile_menu.addSeparator()
             for profile in os.listdir(profile_folder):
-                tempstats = etree.parse(profile_folder + profile + "/Stats.xml").getroot()
+                try:
+                    tempstats = etree.parse(profile_folder + profile + "/Stats.xml").getroot()
+                except FileNotFoundError:
+                    continue
                 tempname = parse.get_profile_name(tempstats)
                 action = profile_menu.addAction(tempname)
                 function = functools.partial(self.set_stats, tempstats)
