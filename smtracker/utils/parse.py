@@ -108,6 +108,12 @@ def highscore_holds(step):
                'LetGo': int(notes.find("LetGo").text)}
     return timings
 
+# TODO: These calculate_tier functions are somewhat naive and may display
+# values that don't match with what you see on your game. However, they may be
+# useful to convert grades from one system to another, and they prevent issues
+# regarding grading systems having a different quantity of tiers.
+# Maybe there should be a "don't calculate tier" option that just uses the
+# tier on the Stats.xml file.
 
 def calculate_tier_sm5(step):
     """Calculates a tier for the first HighScore in a Steps ElementTree, using
