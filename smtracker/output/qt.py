@@ -313,6 +313,8 @@ IIDX EX Score: {}""".format(timings['W1'], timings['W2'], timings['W3'], timings
                 except FileNotFoundError:
                     continue
                 tempname = parse.get_profile_name(tempstats)
+                if tempname == None:
+                    tempname = "Unknown Name ({path})".format(path=profile)
                 action = profile_menu.addAction(tempname)
                 function = functools.partial(self.set_stats, tempstats)
                 action.triggered.connect(function)
