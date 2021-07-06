@@ -17,7 +17,7 @@
 
 """Formatting utilities used by outputs."""
 
-import smtracker.utils.parse as parse
+import smtracker.utils.score as score
 
 def timing_to_judgment_sm5(timing):
     timings = {'W1':   'Flawless',
@@ -45,7 +45,7 @@ def timing_to_judgment_ddra(timing):
         return "?"
 
 
-def timing_to_judgment_sn2(timing):
+def timing_to_judgment_supernova2(timing):
     timings = {'W1':   'Marvelous',
                'W2':   'Perfect',
                'W3':   'Great',
@@ -90,8 +90,8 @@ def get_judgment_name(theme, timing):
         return timing_to_judgment_sm5(timing)
     if theme == "ddra":
         return timing_to_judgment_ddra(timing)
-    if theme == "sn2":
-        return timing_to_judgment_sn2(timing)
+    if theme == "supernova2":
+        return timing_to_judgment_supernova2(timing)
     if theme == "itg":
         return timing_to_judgment_itg(timing)
     if theme == "iidx":
@@ -198,15 +198,15 @@ def highscore_grade(step, system):
     """Returns a grade for a tier, based on the defined grading system."""
     grade = "?"
     if system == "sm5":
-        grade = tier_to_grade_sm5(parse.calculate_tier_sm5(step))
+        grade = tier_to_grade_sm5(score.calculate_tier_sm5(step))
     elif system == "itg":
-        grade = tier_to_grade_itg(parse.calculate_tier_itg(step))
+        grade = tier_to_grade_itg(score.calculate_tier_itg(step))
     elif system == "supernova2":
-        grade = tier_to_grade_supernova2(parse.calculate_tier_supernova2(step))
+        grade = tier_to_grade_supernova2(score.calculate_tier_supernova2(step))
     elif system == "ddra":
-        grade = tier_to_grade_ddra(parse.calculate_tier_ddra(step))
+        grade = tier_to_grade_ddra(score.calculate_tier_ddra(step))
     elif system == "iidx":
-        grade = tier_to_grade_iidx(parse.calculate_tier_iidx(step))
+        grade = tier_to_grade_iidx(score.calculate_tier_iidx(step))
     else:
         print("{} is not a valid grading system.".format(system))
         exit(1)

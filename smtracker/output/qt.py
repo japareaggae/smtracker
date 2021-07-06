@@ -32,6 +32,7 @@ from PyQt5.QtGui import QIcon
 import smtracker
 import smtracker.utils.format as smformat
 import smtracker.utils.parse as parse
+import smtracker.utils.score as score
 import smtracker.output.html as html
 
 
@@ -121,23 +122,7 @@ class Viewer(QMainWindow):
                             # Get the timings for our song
                             timings = parse.highscore_timings(song[step_counter])
 
-                            # TODO: Figure out if there's a cleaner way of
-                            # doing this
-#                            tooltip = """Marvelous: {}
-#Perfect: {}
-#Great: {}
-#Good: {}
-#Boo: {}
-#Miss: {}
-#-----
-#Modifiers: {}""".format(timings['W1'], timings['W2'], timings['W3'], timings['W4'],
-#                   timings['W5'], timings['Miss'],
-#                   parse.highscore_stat(song[step_counter], "Modifiers"))
-
-                   #parse.calculate_score_supernova2(song[step_counter]),
-                   #parse.calculate_score_ddra(song[step_counter]),
-                   #parse.calculate_score_iidx(song[step_counter]))
-
+                            # Generate tooltip
                             tooltip = """{w1}: {w1_count}
 {w2}: {w2_count}
 {w3}: {w3_count}
@@ -152,6 +137,14 @@ Modifiers: {modifiers}""".format(
         w5=smformat.get_judgment_name(self.theme, 'W5'), w5_count=timings['W5'],
         miss=smformat.get_judgment_name(self.theme, 'Miss'), miss_count=timings['Miss'],
         modifiers=parse.highscore_stat(song[step_counter], "Modifiers"))
+
+                            if self.theme == "supernova2":
+                                tooltip = tooltip + "\nDDR SN2 Score: {}".format(score.calculate_score_supernova2(song[step_counter]))
+                            if self.theme == "ddra":
+                                tooltip = tooltip + "\nDDR A Score: {}".format(score.calculate_score_ddra(song[step_counter]))
+                            if self.theme == "iidx":
+                                tooltip = tooltip + "\nIIDX EX Score: {}".format(score.calculate_score_iidx(song[step_counter]))
+
 
                             cell.setToolTip(tooltip)
                             self.table.setItem(current_row, current_column, cell)
