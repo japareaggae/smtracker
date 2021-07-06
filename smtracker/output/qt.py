@@ -123,23 +123,36 @@ class Viewer(QMainWindow):
 
                             # TODO: Figure out if there's a cleaner way of
                             # doing this
-                            tooltip = """Marvelous: {}
-Perfect: {}
-Great: {}
-Good: {}
-Boo: {}
-Miss: {}
------
-Modifiers: {}
------
-SN2 Score: {}
-DDRA Score: {}
-IIDX EX Score: {}""".format(timings['W1'], timings['W2'], timings['W3'], timings['W4'],
-                   timings['W5'], timings['Miss'],
-                   parse.highscore_stat(song[step_counter], "Modifiers"),
-                   parse.calculate_score_supernova2(song[step_counter]),
-                   parse.calculate_score_ddra(song[step_counter]),
-                   parse.calculate_score_iidx(song[step_counter]))
+#                            tooltip = """Marvelous: {}
+#Perfect: {}
+#Great: {}
+#Good: {}
+#Boo: {}
+#Miss: {}
+#-----
+#Modifiers: {}""".format(timings['W1'], timings['W2'], timings['W3'], timings['W4'],
+#                   timings['W5'], timings['Miss'],
+#                   parse.highscore_stat(song[step_counter], "Modifiers"))
+
+                   #parse.calculate_score_supernova2(song[step_counter]),
+                   #parse.calculate_score_ddra(song[step_counter]),
+                   #parse.calculate_score_iidx(song[step_counter]))
+
+                            tooltip = """{w1}: {w1_count}
+{w2}: {w2_count}
+{w3}: {w3_count}
+{w4}: {w4_count}
+{w5}: {w5_count}
+{miss}: {miss_count}
+Modifiers: {modifiers}""".format(
+        w1=smformat.get_judgment_name(self.theme, 'W1'), w1_count=timings['W1'],
+        w2=smformat.get_judgment_name(self.theme, 'W2'), w2_count=timings['W2'],
+        w3=smformat.get_judgment_name(self.theme, 'W3'), w3_count=timings['W3'],
+        w4=smformat.get_judgment_name(self.theme, 'W4'), w4_count=timings['W4'],
+        w5=smformat.get_judgment_name(self.theme, 'W5'), w5_count=timings['W5'],
+        miss=smformat.get_judgment_name(self.theme, 'Miss'), miss_count=timings['Miss'],
+        modifiers=parse.highscore_stat(song[step_counter], "Modifiers"))
+
                             cell.setToolTip(tooltip)
                             self.table.setItem(current_row, current_column, cell)
                         # This exception is reached if a Song was played, but

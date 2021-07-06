@@ -19,6 +19,84 @@
 
 import smtracker.utils.parse as parse
 
+def timing_to_judgment_sm5(timing):
+    timings = {'W1':   'Flawless',
+               'W2':   'Perfect',
+               'W3':   'Great',
+               'W4':   'Good',
+               'W5':   'Bad',
+               'Miss': 'Miss'}
+    try:
+        return timings[timing]
+    except KeyError:
+        return "?"
+
+
+def timing_to_judgment_ddra(timing):
+    timings = {'W1':   'Marvelous',
+               'W2':   'Perfect',
+               'W3':   'Great',
+               'W4':   'Good',
+               'W5':   'Miss',
+               'Miss': 'Miss'}
+    try:
+        return timings[timing]
+    except KeyError:
+        return "?"
+
+
+def timing_to_judgment_sn2(timing):
+    timings = {'W1':   'Marvelous',
+               'W2':   'Perfect',
+               'W3':   'Great',
+               'W4':   'Good',
+               'W5':   'Boo',
+               'Miss': 'Miss'}
+    try:
+        return timings[timing]
+    except KeyError:
+        return "?"
+
+
+def timing_to_judgment_itg(timing):
+    timings = {'W1':   'Fantastic',
+               'W2':   'Excellent',
+               'W3':   'Great',
+               'W4':   'Decent',
+               'W5':   'Way Off',
+               'Miss': 'Miss'}
+    try:
+        return timings[timing]
+    except KeyError:
+        return "?"
+
+
+def timing_to_judgment_iidx(timing):
+    timings = {'W1':   'PGreat',
+               'W2':   'Great',
+               'W3':   'Good',
+               'W4':   'Bad',
+               'W5':   'Bad',
+               'Miss': 'Poor'}
+    try:
+        return timings[timing]
+    except KeyError:
+        return "?"
+
+
+def get_judgment_name(theme, timing):
+    """TODO"""
+    if theme == "sm5":
+        return timing_to_judgment_sm5(timing)
+    if theme == "ddra":
+        return timing_to_judgment_ddra(timing)
+    if theme == "sn2":
+        return timing_to_judgment_sn2(timing)
+    if theme == "itg":
+        return timing_to_judgment_itg(timing)
+    if theme == "iidx":
+        return timing_to_judgment_iidx(timing)
+
 
 def tier_to_grade_sm5(tier):
     """Converts a tier to a grade according to SM5 default metrics."""
