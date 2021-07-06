@@ -97,7 +97,7 @@ def timing_to_judgment_iidx(timing):
 
 def get_judgment_name(theme, timing):
     """Returns an human-readable judgment label, based on the desired theme."""
-    if theme == "sm5":
+    if theme == "sm5" or theme == "sm5.1":
         return timing_to_judgment_sm5(timing)
     if theme == "ddra":
         return timing_to_judgment_ddra(timing)
@@ -112,7 +112,7 @@ def get_judgment_name(theme, timing):
 
 
 def tier_to_grade_sm5(tier):
-    """Converts a tier to a grade according to SM5 default metrics."""
+    """Converts a tier to a grade according to StepMania 5.0 default metrics."""
     grades = {'Failed': 'F',
               'Tier07': 'D',
               'Tier06': 'C',
@@ -121,6 +121,32 @@ def tier_to_grade_sm5(tier):
               'Tier03': 'AA',
               'Tier02': 'AAA',
               'Tier01': 'AAAA'}
+    try:
+        return grades[tier]
+    except KeyError:
+        return "?"
+
+
+def tier_to_grade_sm51(tier):
+    """Converts a tier to a grade according to StepMania 5.1+ metrics."""
+    grades = {'Failed': 'F',
+              'Tier17': 'D-',
+              'Tier16': 'D',
+              'Tier15': 'D+',
+              'Tier14': 'C-',
+              'Tier13': 'C',
+              'Tier12': 'C+',
+              'Tier11': 'B-',
+              'Tier10': 'B',
+              'Tier09': 'B+',
+              'Tier08': 'A-',
+              'Tier07': 'A',
+              'Tier06': 'A+',
+              'Tier05': 'AA-',
+              'Tier04': 'AA',
+              'Tier03': 'AA+',
+              'Tier02': 'AAA',
+              'Tier01': 'AAA*'}
     try:
         return grades[tier]
     except KeyError:
@@ -212,6 +238,8 @@ def highscore_grade(step, system):
     grade = "?"
     if system == "sm5":
         grade = tier_to_grade_sm5(score.calculate_tier_sm5(step))
+    elif system == "sm5.1":
+        grade = tier_to_grade_sm51(score.calculate_tier_sm51(step))
     elif system == "itg":
         grade = tier_to_grade_itg(score.calculate_tier_itg(step))
     elif system == "supernova2":

@@ -28,7 +28,7 @@ import smtracker.utils.parse as parse
 
 def calculate_tier_sm5(step):
     """Calculates a tier for the first HighScore in a Steps ElementTree, using
-    StepMania 5's default metrics.
+    StepMania 5.0's default metrics.
 
     Arguments:
     step -- the Steps ElementTree to search
@@ -84,6 +84,88 @@ def calculate_tier_sm5(step):
         tier = "Tier06"
     else:
         tier = "Tier07"
+    return tier
+
+
+def calculate_tier_sm51(step):
+    """Calculates a tier for the first HighScore in a Steps ElementTree, using
+    StepMania 5.1's default metrics.
+
+    Arguments:
+    step -- the Steps ElementTree to search
+    """
+    # Here's an explanation of how StepMania calculates its grades:
+    # https://zenius-i-vanisher.com/v5.2/viewthread.php?threadid=6582#p349466
+
+    # If the file says we failed, then we failed
+    if parse.highscore_stat(step, "Grade") == "Failed":
+        return "Failed"
+
+    # Values for each timing
+    note_values = {'Miss': -8,
+                   'W5': -4,
+                   'W4': 0,
+                   'W3': 1,
+                   'W2': 2,
+                   'W1': 2,
+                   'HitMine': -8,}
+
+    # Calculate our grades
+    timings = parse.highscore_timings(step)
+
+    # Notecount for a song
+    note_count = (timings['Miss'] + timings['W5'] + timings['W4'] + timings['W3'] +
+                  timings['W2'] + timings['W1'])
+
+    # Maximum amount of points we can score on a song
+    max_points = note_values['W1'] * note_count
+
+    # How many points we scored on a song
+    point_count = (timings['Miss'] * note_values['Miss'] +
+                   timings['W5'] * note_values['W5'] +
+                   timings['W4'] * note_values['W4'] +
+                   timings['W3'] * note_values['W3'] +
+                   timings['W2'] * note_values['W2'] +
+                   timings['W1'] * note_values['W1'] +
+                   timings['HitMine'] * note_values['HitMine'])
+
+    points = point_count/max_points
+
+    if points >= 1.0:
+        if timings['W2'] >= 1:
+            tier = "Tier02"
+        else:
+            tier = "Tier01"
+    elif points >= 0.98:
+            tier = "Tier03"
+    elif points >= 0.96:
+            tier = "Tier04"
+    elif points >= 0.94:
+            tier = "Tier05"
+    elif points >= 0.92:
+            tier = "Tier06"
+    elif points >= 0.89:
+            tier = "Tier07"
+    elif points >= 0.86:
+            tier = "Tier08"
+    elif points >= 0.83:
+            tier = "Tier09"
+    elif points >= 0.80:
+            tier = "Tier10"
+    elif points >= 0.76:
+            tier = "Tier11"
+    elif points >= 0.72:
+            tier = "Tier12"
+    elif points >= 0.68:
+            tier = "Tier13"
+    elif points >= 0.64:
+            tier = "Tier14"
+    elif points >= 0.60:
+            tier = "Tier15"
+    elif points >= 0.55:
+            tier = "Tier16"
+    else:
+            tier = "Tier17"
     return tier
 
 

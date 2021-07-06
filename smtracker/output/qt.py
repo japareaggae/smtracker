@@ -346,7 +346,7 @@ Modifiers: {modifiers}""".format(
         """Initializes the user interface."""
         modes = ("dance-single", "dance-double", "pump-single", "pump-double",
                  "pump-halfdouble", "bm-single7", "bm-double7")
-        themes = ("sm5", "itg", "supernova2", "ddra", "iidx")
+        themes = ("sm5", "sm5.1", "itg", "supernova2", "ddra", "iidx")
 
         # Combobox for game modes
         combobox = QComboBox()
