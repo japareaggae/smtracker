@@ -107,4 +107,3 @@ def save(stats, mode, difficulties, theme, dest='/tmp/sm.html'):
     else:
         with open(dest, 'w') as filename:
             filename.write(generate(stats, mode, difficulties, theme))
-

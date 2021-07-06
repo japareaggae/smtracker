@@ -19,6 +19,7 @@
 
 import argparse
 import os
+import sys
 import xml.etree.ElementTree as etree
 
 import smtracker.output.plain as plain
@@ -88,8 +89,7 @@ def main():
 
         # Check if this is a valid Stats.xml file before doing anything
         if stats.find("SongScores") is None:
-            print("Error: The specified file is not a valid StepMania Stats.xml file")
-            exit(1)
+            sys.exit("Error: The specified file is not a valid StepMania Stats.xml file")
 
     else:
         stats = None

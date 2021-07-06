@@ -319,7 +319,7 @@ Modifiers: {modifiers}""".format(
                 except FileNotFoundError:
                     continue
                 tempname = parse.get_profile_name(tempstats)
-                if tempname == None:
+                if tempname is None:
                     tempname = "Unknown Name ({path})".format(path=profile)
                 action = profile_menu.addAction(tempname)
                 function = functools.partial(self.set_stats, tempstats)

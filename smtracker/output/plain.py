@@ -17,6 +17,7 @@
 
 """A plain text interface for visualizing your scores."""
 
+import sys
 import smtracker.utils.format as smformat
 import smtracker.utils.parse as parse
 
@@ -25,8 +26,7 @@ def report(stats, mode, difficulties, theme):
     """Prints the plain text report."""
 
     if stats is None:
-        print("Error: Could not find a Stats.xml file")
-        exit(1)
+        sys.exit("Error: Could not find a Stats.xml file")
 
     displayname = parse.get_profile_name(stats)
     lastplayed = parse.get_last_played(stats)

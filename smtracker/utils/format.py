@@ -17,9 +17,12 @@
 
 """Formatting utilities used by outputs."""
 
+import sys
 import smtracker.utils.score as score
 
 def timing_to_judgment_sm5(timing):
+    """Convert a StepMania internal timing into an human-readable judgment,
+    using StepMania 5's nomenclature."""
     timings = {'W1':   'Flawless',
                'W2':   'Perfect',
                'W3':   'Great',
@@ -33,6 +36,8 @@ def timing_to_judgment_sm5(timing):
 
 
 def timing_to_judgment_ddra(timing):
+    """Convert a StepMania internal timing into an human-readable judgment,
+    using DDR A's nomenclature."""
     timings = {'W1':   'Marvelous',
                'W2':   'Perfect',
                'W3':   'Great',
@@ -46,6 +51,8 @@ def timing_to_judgment_ddra(timing):
 
 
 def timing_to_judgment_supernova2(timing):
+    """Convert a StepMania internal timing into an human-readable judgment,
+    using DDR SuperNOVA2's nomenclature."""
     timings = {'W1':   'Marvelous',
                'W2':   'Perfect',
                'W3':   'Great',
@@ -59,6 +66,8 @@ def timing_to_judgment_supernova2(timing):
 
 
 def timing_to_judgment_itg(timing):
+    """Convert a StepMania internal timing into an human-readable judgment,
+    using In The Groove's nomenclature."""
     timings = {'W1':   'Fantastic',
                'W2':   'Excellent',
                'W3':   'Great',
@@ -72,6 +81,8 @@ def timing_to_judgment_itg(timing):
 
 
 def timing_to_judgment_iidx(timing):
+    """Convert a StepMania internal timing into an human-readable judgment,
+    using beatmania IIDX's nomenclature."""
     timings = {'W1':   'PGreat',
                'W2':   'Great',
                'W3':   'Good',
@@ -85,7 +96,7 @@ def timing_to_judgment_iidx(timing):
 
 
 def get_judgment_name(theme, timing):
-    """TODO"""
+    """Returns an human-readable judgment label, based on the desired theme."""
     if theme == "sm5":
         return timing_to_judgment_sm5(timing)
     if theme == "ddra":
@@ -96,6 +107,8 @@ def get_judgment_name(theme, timing):
         return timing_to_judgment_itg(timing)
     if theme == "iidx":
         return timing_to_judgment_iidx(timing)
+
+    return "?"
 
 
 def tier_to_grade_sm5(tier):
@@ -208,6 +221,5 @@ def highscore_grade(step, system):
     elif system == "iidx":
         grade = tier_to_grade_iidx(score.calculate_tier_iidx(step))
     else:
-        print("{} is not a valid grading system.".format(system))
-        exit(1)
+        sys.exit("{} is not a valid grading system.".format(system))
     return grade

@@ -107,4 +107,3 @@ def highscore_holds(step):
     timings = {'Held': int(notes.find("Held").text),
                'LetGo': int(notes.find("LetGo").text)}
     return timings
-

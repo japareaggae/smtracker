@@ -181,7 +181,7 @@ def calculate_ddr_stepvalue(timings, hold_timings):
                   hold_timings['LetGo'])
 
     # How much each step is worth
-    return (1000000 / note_count)
+    return 1000000 / note_count
 
 
 def calculate_score_supernova2(step):
