@@ -61,11 +61,11 @@ def get_argparser():
                         const='qt',
                         help="the output to use (valid options are 'plain', "
                         "'html' and 'qt', defaults to 'qt')")
-    parser.add_argument('-t', dest='theme', nargs='?', default='sm5',
-                        const='sm5',
+    parser.add_argument('-t', dest='theme', nargs='?', default='sm5.1',
+                        const='sm5.1',
                         help="what theme should be used for calculating grades "
-                        "(valid options are 'sm5', 'itg' and 'supernova2', "
-                        "defaults to 'sm5')")
+                        "(valid options are 'sm5', 'sm5.1', 'itg', 'supernova2' "
+                        "and 'ddra', defaults to 'sm5.1')")
     parser.add_argument('-i', dest='ignore', nargs='+',
                         help="ignore the specified difficulty")
     parser.add_argument('-d', dest='dest', nargs='?', default='/tmp/sm.html',
