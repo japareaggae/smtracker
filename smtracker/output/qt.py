@@ -117,24 +117,21 @@ class Viewer(QMainWindow):
                             grade = smformat.highscore_grade(song[step_counter], self.theme)
                             percent = float(parse.highscore_stat(song[step_counter], "PercentDP")) * 100
 
+                            has_icon = False
                             if self.theme == "sm5" and self.icons_enabled is True:
-                                cell = QTableWidgetItem('{:.2f}%'.format(percent))
                                 source = files(sm5).joinpath(grade + ".png")
-                                with as_file(source) as image:
-                                    cell.setIcon(QIcon(str(image)))
-
+                                has_icon = True
                             elif self.theme == "sm5.1" and self.icons_enabled is True:
-                                cell = QTableWidgetItem('{:.2f}%'.format(percent))
                                 source = files(sm51).joinpath(grade + ".png")
-                                with as_file(source) as image:
-                                    cell.setIcon(QIcon(str(image)))
-
+                                has_icon = True
                             elif self.theme == "itg" and self.icons_enabled is True:
-                                cell = QTableWidgetItem('{:.2f}%'.format(percent))
                                 source = files(itg).joinpath(grade + ".png")
+                                has_icon = True
+
+                            if has_icon is True:
+                                cell = QTableWidgetItem('{:.2f}%'.format(percent))
                                 with as_file(source) as image:
                                     cell.setIcon(QIcon(str(image)))
-
                             else:
                                 cell = QTableWidgetItem('{} ({:.2f}%)'.format(grade, percent))
 
