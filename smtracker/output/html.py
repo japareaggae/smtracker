@@ -44,6 +44,15 @@ def generate(stats, mode, difficulties, theme):
     song_tuple = namedtuple('Song', ['group', 'title', 'scores'])
     score_tuple = namedtuple('Score', ['diff', 'grade', 'perc', 'W1', 'W2',
                                        'W3', 'W4', 'W5', 'Miss'])
+    judgment_tuple = namedtuple('Judgments', ['W1', 'W2', 'W3', 'W4', 'W5', 'Miss'])
+
+    judgments = judgment_tuple(
+        W1=smformat.get_judgment_name(theme, 'W1'),
+        W2=smformat.get_judgment_name(theme, 'W2'),
+        W3=smformat.get_judgment_name(theme, 'W3'),
+        W4=smformat.get_judgment_name(theme, 'W4'),
+        W5=smformat.get_judgment_name(theme, 'W5'),
+        Miss=smformat.get_judgment_name(theme, 'Miss'))
 
     for song in stats.find("SongScores"):
         location = song.attrib['Dir'].split('/')
@@ -88,7 +97,8 @@ def generate(stats, mode, difficulties, theme):
     return(template.render(name=profile_name,
                            last_played=last_played,
                            difficulties=difficulties,
-                           songs=songs))
+                           songs=songs,
+                           judgments=judgments))
 
 def save(stats, mode, difficulties, theme, dest='/tmp/sm.html'):
     """Saves an HTML file generated with the generate function.

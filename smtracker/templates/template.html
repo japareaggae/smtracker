@@ -7,7 +7,7 @@
 	</style>
 </head>
 <body>
-	<p>Last updated on {{ last_played }}</p>
+	<p>Scores for player {{ name }} - Last updated on {{ last_played }}</p>
 	<table>
 		<thead>
 		<tr>
@@ -23,12 +23,12 @@
 			{% for diff in difficulties %}
 			<th>Grade</th>
 			<th>Percent</th>
-			<th>Marvelous</th>
-			<th>Perfect</th>
-			<th>Great</th>
-			<th>Good</th>
-			<th>Boo</th>
-			<th>Miss</th>
+			<th>{{ judgments.W1 }}</th>
+			<th>{{ judgments.W2 }}</th>
+			<th>{{ judgments.W3 }}</th>
+			<th>{{ judgments.W4 }}</th>
+			<th>{{ judgments.W5 }}</th>
+			<th>{{ judgments.Miss }}</th>
 			{% endfor %}
 		</tr>
 		</thead>
