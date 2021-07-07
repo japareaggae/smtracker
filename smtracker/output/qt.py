@@ -21,6 +21,7 @@ import sys
 import os
 import xml.etree.ElementTree as etree
 import functools
+from importlib.resources import files, as_file
 
 from PyQt5.QtWidgets import (QMainWindow, QWidget, QLabel, QComboBox,
                              QTableWidget, QTableWidgetItem, QHBoxLayout,
@@ -34,6 +35,8 @@ import smtracker.utils.format as smformat
 import smtracker.utils.parse as parse
 import smtracker.utils.score as score
 import smtracker.output.html as html
+
+from smtracker.images import itg, sm5, sm51
 
 
 class Viewer(QMainWindow):
@@ -113,12 +116,25 @@ class Viewer(QMainWindow):
                         try:
                             grade = smformat.highscore_grade(song[step_counter], self.theme)
                             percent = float(parse.highscore_stat(song[step_counter], "PercentDP")) * 100
-                            if self.theme == "sm5" or \
-                                    self.theme == "sm5.1" or \
-                                    self.theme == "itg" and \
-                                    self.icons_enabled is True:
+
+                            if self.theme == "sm5" and self.icons_enabled is True:
                                 cell = QTableWidgetItem('{:.2f}%'.format(percent))
-                                cell.setIcon(QIcon(smtracker.__path__[0] + '/images/' + self.theme + "/" + grade + '.png'))
+                                source = files(sm5).joinpath(grade + ".png")
+                                with as_file(source) as image:
+                                    cell.setIcon(QIcon(str(image)))
+
+                            elif self.theme == "sm5.1" and self.icons_enabled is True:
+                                cell = QTableWidgetItem('{:.2f}%'.format(percent))
+                                source = files(sm51).joinpath(grade + ".png")
+                                with as_file(source) as image:
+                                    cell.setIcon(QIcon(str(image)))
+
+                            elif self.theme == "itg" and self.icons_enabled is True:
+                                cell = QTableWidgetItem('{:.2f}%'.format(percent))
+                                source = files(itg).joinpath(grade + ".png")
+                                with as_file(source) as image:
+                                    cell.setIcon(QIcon(str(image)))
+
                             else:
                                 cell = QTableWidgetItem('{} ({:.2f}%)'.format(grade, percent))
 
