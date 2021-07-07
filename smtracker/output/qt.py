@@ -113,7 +113,10 @@ class Viewer(QMainWindow):
                         try:
                             grade = smformat.highscore_grade(song[step_counter], self.theme)
                             percent = float(parse.highscore_stat(song[step_counter], "PercentDP")) * 100
-                            if self.theme == "sm5" or self.theme == "sm5.1" and self.icons_enabled is True:
+                            if self.theme == "sm5" or \
+                                    self.theme == "sm5.1" or \
+                                    self.theme == "itg" and \
+                                    self.icons_enabled is True:
                                 cell = QTableWidgetItem('{:.2f}%'.format(percent))
                                 cell.setIcon(QIcon(smtracker.__path__[0] + '/images/' + self.theme + "/" + grade + '.png'))
                             else:
