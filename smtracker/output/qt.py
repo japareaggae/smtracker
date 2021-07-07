@@ -151,7 +151,8 @@ Modifiers: {modifiers}""".format(
                         # This exception is reached if a Song was played, but
                         # has no score (AutoPlay, PlayerAutoPlay)
                         except AttributeError:
-                            cell = QTableWidgetItem()
+                            cell = QTableWidgetItem('[no score]')
+                            cell.setTextAlignment(Qt.AlignCenter)
                             self.table.setItem(current_row, current_column, cell)
                         step_counter = step_counter + 1
                     # If there are no scores for the current difficulty,
