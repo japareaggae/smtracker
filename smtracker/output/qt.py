@@ -145,14 +145,16 @@ class Viewer(QMainWindow):
 {w4}: {w4_count}
 {w5}: {w5_count}
 {miss}: {miss_count}
-Modifiers: {modifiers}""".format(
+Modifiers: {modifiers}
+Played: {played}""".format(
         w1=smformat.get_judgment_name(self.theme, 'W1'), w1_count=timings['W1'],
         w2=smformat.get_judgment_name(self.theme, 'W2'), w2_count=timings['W2'],
         w3=smformat.get_judgment_name(self.theme, 'W3'), w3_count=timings['W3'],
         w4=smformat.get_judgment_name(self.theme, 'W4'), w4_count=timings['W4'],
         w5=smformat.get_judgment_name(self.theme, 'W5'), w5_count=timings['W5'],
         miss=smformat.get_judgment_name(self.theme, 'Miss'), miss_count=timings['Miss'],
-        modifiers=parse.highscore_stat(song[step_counter], "Modifiers"))
+        modifiers=parse.highscore_stat(song[step_counter], "Modifiers"),
+        played=parse.highscore_stat(song[step_counter], "DateTime"))
 
                             if self.theme == "supernova2":
                                 tooltip = tooltip + "\nDDR SN2 Score: {}".format(score.calculate_score_supernova2(song[step_counter]))
