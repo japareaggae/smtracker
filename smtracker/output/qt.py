@@ -240,8 +240,9 @@ Played: {played}""".format(
         """Resets the application statusbar."""
         displayname = parse.get_profile_name(self.stats)
         lastplayed = parse.get_last_played(self.stats)
-        status = 'Profile: {} // Last played: {}'.format(displayname,
-                                                         lastplayed)
+        timeplayed = parse.get_session_seconds(self.stats)
+        status = 'Profile: {} // Last played: {} // Total time played: {}'.format(
+                displayname, lastplayed, timeplayed)
         self.setStatusTip(status)
 
 

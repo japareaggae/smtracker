@@ -19,6 +19,7 @@
 
 import sys
 import os
+import datetime
 
 def get_profile_location():
     """Returns the directories containing the local and machine profiles."""
@@ -64,6 +65,11 @@ def get_profile_name(stats):
 def get_last_played(stats):
     """Gets the LastPlayedDate from the Stats tree."""
     return stats.find("GeneralData").find("LastPlayedDate").text
+
+
+def get_session_seconds(stats):
+    """Gets the TotalGameplaySeconds from the Stats tree and makes it pretty."""
+    return datetime.timedelta(seconds=int(stats.find("GeneralData").find("TotalGameplaySeconds").text))
 
 
 def highscore_stat(step, stat):
