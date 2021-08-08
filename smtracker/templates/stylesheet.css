@@ -7,6 +7,11 @@ table {
 	border-collapse: collapse;
 }
 
+tr#table-header {
+	position: sticky;
+	top: 2px;
+}
+
 td {
 	text-align: center;
 	border-width: 1px 0px;
