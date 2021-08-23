@@ -23,7 +23,7 @@ import xml.etree.ElementTree as etree
 import functools
 from importlib.resources import files, as_file
 
-from PyQt5.QtWidgets import (QMainWindow, QWidget, QLabel, QComboBox,
+from PyQt5.QtWidgets import (QMainWindow, QWidget, QLabel, QComboBox, QLineEdit,
                              QTableWidget, QTableWidgetItem, QHBoxLayout,
                              QVBoxLayout, QAction, QMessageBox, QFileDialog,
                              QAbstractItemView, qApp, QApplication)
@@ -50,6 +50,7 @@ class Viewer(QMainWindow):
         self.stats = stats                 # XML tree
         self.mode = mode                   # Gamemode
         self.difficulties = difficulties   # Tracked difficulties
+        self.filter = None
 
         ### Initialize interface options
         self.icons_enabled = True          # Icons
@@ -96,6 +97,9 @@ class Viewer(QMainWindow):
             # Get the song's group and title
             # location[0] should always be "Songs"
             location = song.attrib['Dir'].split('/')
+
+            if self.filter is not None and self.filter.lower() not in location[2].lower():
+                continue
 
             # Create group cell
             group = QTableWidgetItem(location[1])
@@ -201,6 +205,12 @@ Played: {played}""".format(
     def themebox_activated(self, combobox):
         """Sets the current grading system and regenerates the table."""
         self.theme = combobox.currentText()
+        self.init_table()
+
+
+    def filterbox_activated(self, filterbox):
+        """Filters the table based on the contents of the filterbox."""
+        self.filter = filterbox.text()
         self.init_table()
 
 
@@ -381,6 +391,11 @@ Played: {played}""".format(
         themelabel = QLabel("Grading system:")
         themebox.activated.connect(lambda: self.themebox_activated(themebox))
 
+        # Filter text box
+        filterlabel = QLabel("Filter titles:")
+        filterbox = QLineEdit()
+        filterbox.editingFinished.connect(lambda: self.filterbox_activated(filterbox))
+
         self.init_menubar()
 
         if self.stats is not None:
@@ -391,8 +406,14 @@ Played: {played}""".format(
         hbox.addWidget(combobox, 1)
         hbox.addWidget(themelabel)
         hbox.addWidget(themebox, 1)
+
+        filterhbox = QHBoxLayout()
+        filterhbox.addWidget(filterlabel)
+        filterhbox.addWidget(filterbox, 1)
+
         vbox = QVBoxLayout()
         vbox.addLayout(hbox)
+        vbox.addLayout(filterhbox)
         vbox.addWidget(self.table)
 
         container = QWidget()
